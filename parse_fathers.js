@@ -219,14 +219,17 @@ async function async_each(array, callback) {
 	await callback(index, array[index], array) }
 
 async function parse_from_ttorg(filename) {
-    filename    = filename || 'sources/www.tertullian.org/fathers2/ANF-01/anf01-05.htm'
-    var folder  = filename.match(/fathers2\/(.*?)\//)[1]
-    fs.readFile(filename, 'utf8', async (err, data) => {
+    filename      = filename || 'sources/www.tertullian.org/fathers2/ANF-01/anf01-05.htm'
+    var folder    = filename.match(/fathers2\/(.*?)\//)[1]
+    var end_part  = filename.match(/fathers2\/(.*?)\.htm/)[1]
+    var data      = await fsp.readFile(filename, 'utf8')
+    if (data) {
 	var $             = cheerio.load(data)
 	var collection    = $('title').text().trim()
-	var as            = Object.values($('a'))
-	var ps            = Object.values($('p'))
-	var tracking      = false
+	var as            = Object.values($('a')).filter((x) => x.name == 'a' && x.type == 'tag')
+	var ps            = Object.values($('p')).filter((x) => x.name == 'p' && x.type == 'tag')
+
+	var tracking      = true
 	var title
 	
 	for (var i in as) 
@@ -236,40 +239,46 @@ async function parse_from_ttorg(filename) {
 		title = el.text().trim()
 		break }
 
-	var code          = title.toLowerCase().replace(/[^a-z0-9]+/g, '_')
-	var article       = {title, code, chapters: []}
+	var code          = (end_part + "_" + title).toLowerCase().replace(/[^a-z0-9]+/g, '_')
+	var article       = {title, code, filename, chapters: []}
 	var chapter       = {name:       '',
 			     index:       1,
 			     paragraphs: []}
 
-	var write_reference = async (book, chapter, verse, source_code, source_chapter, source_paragraph) => {
+	console.log({article})
+
+	var write_reference = async (book, chapter, verse, source_code, source_chapter, source_paragraph, text) => {
+	    return;
 	    var book = book_keys_tbl[book]
-	    var data = await fsp.readFile('data/bible/' + book + '/' + chapter + '/douay.json')
+	    var path = 'data/bible/' + book + '/' + chapter + '/douay.json'
+	    var data = await fsp.readFile(path)
 	    data     = JSON.parse(data)
 
 	    if (!data.references) data.references = []
 
-	    data.references.push({chapter, verse, source_code, source_chapter, source_paragraph}) }
-	
-	
+	    data.references.push({chapter, verse, source_code, source_chapter, source_paragraph, folder, text})
+	    await fsp.writeFile(path, JSON.stringify(data)) }
+
 	var save_article = async (article) => {
-	    var folder = 'data/sources/' + article.code
-	    console.log(folder)
-	    article.chapters.map((chapter) => {
-		chapter.paragraphs.map((paragraph) => {
-		    paragraph.references.map((reference) => {
-			reference.bible_refs.map((bible_ref) => {
-			    bible_ref.verses.map((chapter) => {
+	    var dest_folder = 'data/sources/' + folder + "/" + article.code
+	    console.log('saving', dest_folder)
+	    article.chapters.map(async (chapter) => {
+		chapter.paragraphs.map(async (paragraph) => {
+		    paragraph.references.map(async (reference) => {
+			console.log(paragraph)
+			reference.bible_refs.map(async (bible_ref) => {
+			    bible_ref.verses.map(async (chapter) => {
 				var verse = chapter.verses[0]
-				write_reference(bible_ref.book,
-						chapter.chapter,
-						verse,
-						article.code,
-						chapter.index,
-						paragraph.index) }) }) })  }) })
+				await write_reference(bible_ref.book,
+						      chapter.chapter,
+						      verse,
+						      article.code,
+						      chapter.index,
+						      paragraph.index,
+						      paragraph.text) }) }) })  }) })
 	    
-	    mkdirp(folder).then((m, e) => {
-		fs.writeFile(folder + '/source.json', JSON.stringify(article), () => {}) }) }
+	    await mkdirp(dest_folder)
+	    await fsp.writeFile(dest_folder + '/source.json', JSON.stringify(article), () => {}) }
 
 	
 	var fns           = {}
@@ -323,15 +332,17 @@ async function parse_from_ttorg(filename) {
 				    var verses   = []
 				    
 				    if (_verses.length > 1)
-					for (var i = _verses[0]; i <= _verses[1]; i++)
+					for (var i = Math.max(1, _verses[0]); i <= _verses[1]; i++)
 					    verses.push(i)
 				    else
 					verses = _verses
-				
-				    return {chapter, verses}})
+				    verses = verses.filter((x) => x > 0)
+				    if (!verses.length) verses = [1]
+				    return {chapter, verses} })
 
 			    verse        = {book:      books_tbl[i][0],
 					    verses}
+
 			    bible_refs.push(verse) }}}}
 
 
@@ -381,7 +392,21 @@ async function parse_from_ttorg(filename) {
 
 	await save_article(article)
 
-	console.log(article) }) }
+	console.log(article) } }
 		
+function get_files() {
+    var filename    = filename || 'sources/www.tertullian.org/fathers2/' //ANF-01/anf01-05.htm'
+    fs.readdir(filename, async (err, folders) => {
+	folders.map(async (folder) => {
+	    console.log({folder})
+	    if (!folder.match('NF')) return
+	    fs.readdir(filename + folder,  async (err, files) => {
+		if (!files) return
+		files.map(async (file) => {
+		    if (!file.match('nf')) return
+		    await parse_from_ttorg(filename + folder + '/' + file) }) }) }) }) }
 
-parse_from_ttorg().then((f) => console.log(f))
+//parse_from_ttorg('sources/www.tertullian.org/fathers2/ANF-04/anf04-28.htm')
+get_files()
+
+//parse_from_ttorg().then((f) => console.log(f))

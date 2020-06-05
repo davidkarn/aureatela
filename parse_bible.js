@@ -3,7 +3,7 @@ var fs          = require('fs')
 var mkdirp      = require('mkdirp')
 
 function parse_douay(filename) {
-    filename = filename || './pg1581.html'
+    filename = filename || './sources/pg1581.html'
     fs.readFile(filename, 'utf8', (err, data) => {
 	var $          = cheerio.load(data)
 	var ps         = $('p')
@@ -21,7 +21,6 @@ function parse_douay(filename) {
 	    var folder = 'data/bible/' + book.toLowerCase() + '/' + chapter
 	    console.log(folder)
 	    mkdirp(folder).then((m, e) => {
-		console.log({m, e})
 		fs.writeFile(folder + '/douay.json', JSON.stringify(books[book][chapter]), () => {}) }) }
 
 	Object.values(ps).map((p) => {
@@ -36,7 +35,7 @@ function parse_douay(filename) {
 		chapter      = Number.parseInt(text.match(/Chapter (.*)/)[1])
 	
 		if (old_book && book != old_book || old_chap && chapter != old_chap) {
-		    console.log('writing: ', book, chapter)
+		    console.log('writing: ', book, old_chap)
 		    save_chapter(old_book, old_chap) }}
 	    
 	    else if (book) {
@@ -46,7 +45,9 @@ function parse_douay(filename) {
 		    chapter   = Number.parseInt(parsed[1])
 		    var line  = parsed[3]
 
-		    save_verse(book, chapter, verse, line) }}}) }) }
+		    save_verse(book, chapter, verse, line) }}})
+	
+    	save_chapter(book, chapter) }) }
 
 parse_douay()
 	
