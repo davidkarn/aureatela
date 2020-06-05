@@ -6,91 +6,90 @@ var util        = require('util')
 var readfile    = util.promisify(fs.readFile)
 
 var book_keys_tbl = {
-    "genesis": "genesis",
-    "exodus": "exodus",
-    "leviticus": "leviticus",
-    "numbers": "numbers",
-    "deuteronomy": "deuteronomy",
-    "joshua": "joshua",
-    "judges": "judges",
-    "ruth": "ruth",
-    "1 samuel": "1 samuel",
-    "2 samuel": "2 samuel",
-    "1 kings": "1 kings",
-    "2 kings": "2 kings",
-    "1 chronicles": "1 chronicles",
-    "2 chronicles": "2 chronicles",
-    "ezra": "ezra",
-    "nehemiah": "nehemiah",
-    "esther": "esther",
-    "job": "job",
-    "psalms": "psalms",
-    "proverbs": "proverbs",
-    "ecclesiastes": "ecclesiastes",
-    "song of solomon": "song of solomon",
-    "isaiah": "isaias",
-    "jeremiah": "jeremiah",
-    "lamentations": "lamentations",
-    "ezekiel": "ezechiel",
-    "daniel": "daniel",
-    "hosea": "hosea",
-    "joel": "joel",
-    "amos": "amos",
-    "obadiah": "obadiah",
-    "jonah": "jonah",
-    "micah": "micah",
-    "nahum": "nahum",
-    "habakkuk": "habakkuk",
-    "zephaniah": "zephaniah",
-    "haggai": "haggai",
-    "zechariah": "zechariah",
-    "malachi": "malachias",
-    "matthew": "matthew",
-    "mark": "mark",
-    "luke": "luke",
-    "john": "john",
-    "the acts": "acts",
-    "romans": "romans",
-    "1 corinthians": "1 corinthians",
-    "2 corinthians": "2 corinthians",
-    "galatians": "galatians",
-    "ephesians": "ephesians",
-    "philippians": "philippians",
-    "colossians": "colossians",
-    "1 thessalonians": "1 thessalonians",
-    "2 thessalonians": "2 thessalonians",
-    "1 timothy": "1 timothy",
-    "2 timothy": "2 timothy",
-    "titus": "titus",
-    "philemon": "philemon",
-    "hebrews": "hebrews",
-    "james": "james",
-    "1 peter": "1 peter",
-    "2 peter": "2 peter",
-    "1 john": "1 john",
-    "2 john": "2 john",
-    "3 john": "3 john",
-    "jude": "jude",
-    "revelation": "apocalypse",
-    "esther (greek)": "esther (greek)",
-    "judith": "judith",
-    "tobit": "tobit",
-    "1 maccabees": "1 maccabees",
-    "2 maccabees": "2 maccabees",
-    "3 maccabees": "3 maccabees",
-    "4 maccabees": "4 maccabees",
-    "wisdom": "wisdom",
-    "sirach": "sirach",
-    "baruch": "baruch",
-    "letter of jeremiah": "letter of jeremiah",
-    "prayer of azariah / song of the three young men": "prayer of azariah / song of the three young men",
-    "susanna": "susanna",
-    "bel and the dragon": "bel and the dragon",
-    "prayer of manasseh": "prayer of manasseh",
-    "1 esdras": "1 esdras",
-    "2 esdras": "2 esdras",
-    "psalm 151": "psalm 151",
-    "epistle to laodiceans": "epistle to laodiceans",
+    "genesis":			 "genesis",
+    "exodus":			 "exodus",
+    "leviticus":		 "leviticus",
+    "numbers":			 "numbers",
+    "deuteronomy":		 "deuteronomy",
+    "joshua":			 "joshua",
+    "judges":			 "judges",
+    "ruth":			 "ruth",
+    "1 samuel":			 "1 samuel",
+    "2 samuel":			 "2 samuel",
+    "1 kings":			 "1 kings",
+    "2 kings":			 "2 kings",
+    "1 chronicles":		 "1 chronicles",
+    "2 chronicles":		 "2 chronicles",
+    "ezra":			 "ezra",
+    "nehemiah":			 "nehemiah",
+    "esther":			 "esther",
+    "job":			 "job",
+    "psalms":			 "psalms",
+    "proverbs":			 "proverbs",
+    "ecclesiastes":		 "ecclesiastes",
+    "song of solomon":		 "song of solomon",
+    "isaiah":			 "isaias",
+    "jeremiah":			 "jeremiah",
+    "lamentations":		 "lamentations",
+    "ezekiel":			 "ezechiel",
+    "daniel":			 "daniel",
+    "hosea":			 "hosea",
+    "joel":			 "joel",
+    "amos":			 "amos",
+    "obadiah":			 "obadiah",
+    "jonah":			 "jonah",
+    "micah":			 "micah",
+    "nahum":			 "nahum",
+    "habakkuk":			 "habakkuk",
+    "zephaniah":		 "zephaniah",
+    "haggai":			 "haggai",
+    "zechariah":		 "zechariah",
+    "malachi":			 "malachias",
+    "matthew":			 "matthew",
+    "mark":			 "mark",
+    "luke":			 "luke",
+    "john":			 "john",
+    "the acts":			 "acts",
+    "romans":			 "romans",
+    "1 corinthians":		 "1 corinthians",
+    "2 corinthians":		 "2 corinthians",
+    "galatians":		 "galatians",
+    "ephesians":		 "ephesians",
+    "philippians":		 "philippians",
+    "colossians":		 "colossians",
+    "1 thessalonians":		 "1 thessalonians",
+    "2 thessalonians":		 "2 thessalonians",
+    "1 timothy":		 "1 timothy",
+    "2 timothy":		 "2 timothy",
+    "titus":			 "titus",
+    "philemon":			 "philemon",
+    "hebrews":			 "hebrews",
+    "james":			 "james",
+    "1 peter":			 "1 peter",
+    "2 peter":			 "2 peter",
+    "1 john":			 "1 john",
+    "2 john":			 "2 john",
+    "3 john":			 "3 john",
+    "jude":			 "jude",
+    "revelation":		 "apocalypse",
+    "esther (greek)":		 "esther (greek)",
+    "judith":			 "judith",
+    "tobit":			 "tobit",
+    "1 maccabees":		 "1 maccabees",
+    "2 maccabees":		 "2 maccabees",
+    "3 maccabees":		 "3 maccabees",
+    "4 maccabees":		 "4 maccabees",
+    "wisdom":			 "wisdom",
+    "sirach":			 "sirach",
+    "baruch":			 "baruch",
+    "letter of jeremiah":	 "letter of jeremiah",
+    "susanna":			 "susanna",
+    "bel and the dragon":	 "bel and the dragon",
+    "prayer of manasseh":	 "prayer of manasseh",
+    "1 esdras":			 "1 esdras",
+    "2 esdras":			 "2 esdras",
+    "psalm 151":	         "psalm 151",
+    "epistle to laodiceans":	 "epistle to laodiceans",
     "psalterium iuxta hebraeos": "psalterium iuxta hebraeos"}
 
 var books_tbl   = [
@@ -99,7 +98,7 @@ var books_tbl   = [
     ["Leviticus","3 Mz","3 Mojz","Lev","L�v","Lv","Lb","Leu","Levitik","3 Mojzes","Leviticus","3 Mose"],
     ["Numbers","4 Mz","4 Mojz","Num","Nm","Nu","Nb","Nomb","Br","Zen","Numeri","4 Mojzes","Numbers","4 Mose"],
     ["Deuteronomy","5 Mz","5 Mojz","Deu","Dt","Deut","Pnz","Devteronomij","5 Mojzes","Deuteronomium","Deuteronomy","5 Mose","Deuteronomio"],
-    ["Joshua","Joz","Jos","Josh","Ios","J�","Jozue","Joshua","Jozua","Josua"],
+    ["Joshua","Joz","Jos","Josh","Ios","Jozue","Joshua","Jozua","Josua"],
     ["Judges","Sod","Sodn","Jdg","Judg","Jg","Jug","Jdc","Jue","Jt","Idc","Re","Ri","Richt","Epa","Sodniki","Judges","Rechters","Richteren","Richter","Jueces"],
      ["Ruth","Rut","Ru","Rth","Rt","Ruth","Ruta"],
      ["1 Samuel","1 Sam","1 Sa","1 S","1 Sm","1 Rg","1 Regn","1 Samuel"],
@@ -245,8 +244,6 @@ async function parse_from_ttorg(filename) {
 			     index:       1,
 			     paragraphs: []}
 
-	console.log({article})
-
 	var write_reference = async (book, chapter, verse, source_code, source_chapter, source_paragraph, text) => {
 	    return;
 	    var book = book_keys_tbl[book]
@@ -261,7 +258,7 @@ async function parse_from_ttorg(filename) {
 
 	var save_article = async (article) => {
 	    var dest_folder = 'data/sources/' + folder + "/" + article.code
-	    console.log('saving', dest_folder)
+
 	    article.chapters.map(async (chapter) => {
 		chapter.paragraphs.map(async (paragraph) => {
 		    paragraph.references.map(async (reference) => {
@@ -295,17 +292,20 @@ async function parse_from_ttorg(filename) {
 	var get_reference = async (folder, fn, code) => {
 	    var fn_file    = await get_fn_file(folder, fn)
 	    var fn$        = cheerio.load(fn_file)
-
+	    var bible_refs = []
+	    
 	    var node       = fn$('a[name="' + code + '"]').parent()
 	    $('sup', node).text('')
+	    
 	    var text       = node.text().trim()
 	    if (text.match(/\[.*?\]/))
 		text = text.match(/\[(.*?)\]/)[1]
 	    texts          = text.split(';')
-	    var bible_refs = []
+	    	    
             for (var i in texts) {
 		var text       = texts[i].trim().replace(', etc', '').replace('. etc', '')
-		var parsed     = text.toLowerCase().match(/(^(Comp. )?[a-zA-Z 0-9]+?)\.? (([0-9ivxlcdmIVXLCDM]+[.,] )?(\d+(-\d+)?(, \d+)?)[,.] ?)+$/)
+		var parsed     = text.toLowerCase().match(
+			/(^(Comp. )?[a-zA-Z 0-9]+?)\.? (([0-9ivxlcdmIVXLCDM]+[.,] )?(\d+(-\d+)?(, \d+)?)[,.] ?)+$/)
 		var verse      = false
 		
 		if (parsed) {
@@ -365,7 +365,6 @@ async function parse_from_ttorg(filename) {
 		    index,
 		    references: references}}
 	    
-	
 	for (var i in ps) {
 	    var p       = ps[i]
 	    var text    = $(p).text().trim()
@@ -396,9 +395,9 @@ async function parse_from_ttorg(filename) {
 		
 function get_files() {
     var filename    = filename || 'sources/www.tertullian.org/fathers2/' //ANF-01/anf01-05.htm'
+
     fs.readdir(filename, async (err, folders) => {
 	folders.map(async (folder) => {
-	    console.log({folder})
 	    if (!folder.match('NF')) return
 	    fs.readdir(filename + folder,  async (err, files) => {
 		if (!files) return

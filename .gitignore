@@ -1,0 +1,7 @@
+data
+sources
+package-lock.json
+node_modules
+*#
+*~
+*.#*
