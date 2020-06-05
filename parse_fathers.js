@@ -245,7 +245,6 @@ async function parse_from_ttorg(filename) {
 			     paragraphs: []}
 
 	var write_reference = async (book, chapter, verse, source_code, source_chapter, source_paragraph, text) => {
-	    return;
 	    var book = book_keys_tbl[book]
 	    var path = 'data/bible/' + book + '/' + chapter + '/douay.json'
 	    var data = await fsp.readFile(path)
@@ -259,10 +258,10 @@ async function parse_from_ttorg(filename) {
 	var save_article = async (article) => {
 	    var dest_folder = 'data/sources/' + folder + "/" + article.code
 
+	    if (false)
 	    article.chapters.map(async (chapter) => {
 		chapter.paragraphs.map(async (paragraph) => {
 		    paragraph.references.map(async (reference) => {
-			console.log(paragraph)
 			reference.bible_refs.map(async (bible_ref) => {
 			    bible_ref.verses.map(async (chapter) => {
 				var verse = chapter.verses[0]
@@ -273,9 +272,10 @@ async function parse_from_ttorg(filename) {
 						      chapter.index,
 						      paragraph.index,
 						      paragraph.text) }) }) })  }) })
-	    
+
+	    console.log(dest_folder)
 	    await mkdirp(dest_folder)
-	    await fsp.writeFile(dest_folder + '/source.json', JSON.stringify(article), () => {}) }
+	    return await fsp.writeFile(dest_folder + '/source.json', JSON.stringify(article), () => {}) }
 
 	
 	var fns           = {}
@@ -336,6 +336,7 @@ async function parse_from_ttorg(filename) {
 					    verses.push(i)
 				    else
 					verses = _verses
+				    
 				    verses = verses.filter((x) => x > 0)
 				    if (!verses.length) verses = [1]
 				    return {chapter, verses} })
@@ -390,20 +391,21 @@ async function parse_from_ttorg(filename) {
 	    article.chapters.push(chapter)
 
 	await save_article(article)
-
-	console.log(article) } }
+	console.log('*') } }	
 		
-function get_files() {
+async function get_files() {
     var filename    = filename || 'sources/www.tertullian.org/fathers2/' //ANF-01/anf01-05.htm'
 
-    fs.readdir(filename, async (err, folders) => {
-	folders.map(async (folder) => {
-	    if (!folder.match('NF')) return
-	    fs.readdir(filename + folder,  async (err, files) => {
-		if (!files) return
-		files.map(async (file) => {
-		    if (!file.match('nf')) return
-		    await parse_from_ttorg(filename + folder + '/' + file) }) }) }) }) }
+    var folders     = await fsp.readdir(filename)
+    async_each(folders, async (i, folder) => {
+	if (!folder.match('NF')) return
+	var files = await fsp.readdir(filename + folder)
+	if (!files) return
+
+	async_each(files, async (i, file) => {
+	    if (!file.match('nf')) return
+	    console.log(filename + folder + "/" + file)
+	    return await parse_from_ttorg(filename + folder + '/' + file) }) }) }
 
 //parse_from_ttorg('sources/www.tertullian.org/fathers2/ANF-04/anf04-28.htm')
 get_files()

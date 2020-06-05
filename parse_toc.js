@@ -2,6 +2,7 @@ var cheerio     = require('cheerio')
 var fs          = require('fs')
 var fsp         = require('fs').promises
 var mkdirp      = require('mkdirp')
+var all_headers = {}
 
 async function parse_toc(filename) {
     filename      = filename || './sources/www.tertullian.org/fathers2/ANF-01/TOC.htm'
@@ -26,6 +27,10 @@ async function parse_toc(filename) {
 	    if (font.attr('size') == 4)  heading2  = p.text().trim()
 	    if (font.attr('size') == 3)  author    = p.text().trim()
 
+	    all_headers[heading]   = true
+	    all_headers[heading2]  = true
+//	    all_headers[author]    = true
+
 	    if (a) {
 		var href     = (a.attr('href') || '').match(/.*\.htm/)
 		var target   = (a.attr('href') || '').match(/.*\.htm#(.*)/)
@@ -35,8 +40,8 @@ async function parse_toc(filename) {
 		contents.push({href, target, heading,
 			       heading2, author,
 			       title: p.text().trim()}) }}
-
-	console.log({contents})
+	console.log('thekeys', Object.keys(all_headers).join("\n"))
+return
 	var toc = {contents,
 		   folder,
 		   filename}
@@ -60,3 +65,4 @@ function get_tocs() {
 		    await parse_toc(filename + folder + '/' + file) }) }) }) }) }
 
 get_tocs()
+
