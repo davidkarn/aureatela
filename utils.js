@@ -1,4 +1,4 @@
-module.exports = [
+var authors = {
     "Clement of Rome": "Clement of Rome",
     "Mathetes": "Mathetes",
     "Polycarp": "Polycarp",
@@ -30,7 +30,7 @@ module.exports = [
     "St. Aurelius Augustin": "Augustine",
     "The Twelve Patriarchs": "The Twelve Patriarchs",
     "Theodotus": "Theodotus",
-    "Pseudo-Clementine Literature": "Pseudo-Clementine Literature",
+    "Pseudo-Clementine Literature": "Pseudo-Clementine",
     "Apocrypha of the New Testament": "Apocrypha of the New Testament",
     "The Decretals": "The Decretals",
     "Memoirs of Edessa": "Memoirs of Edessa",
@@ -81,4 +81,9 @@ module.exports = [
     "The Sixth Ecumenical Council.; The Third Council of Constantinople.": "The Sixth Ecumenical Council.; The Third Council of Constantinople",
     "The Canons of the Council in Trullo; Often Called the Quinisext Council.": "The Canons of the Council in Trullo",
     "The Canons of the Synods of Sardica, Carthage, Constantinople, and Carthage": "The Canons of the Synods of Sardica, Carthage, Constantinople, and Carthage",
-    "The Seventh Ecumenical Council. The Second Council of Nice.": "The Seventh Ecumenical Council. The Second Council of Nice."]
+    "The Seventh Ecumenical Council. The Second Council of Nice.": "The Seventh Ecumenical Council. The Second Council of Nice."}
+
+function to_code(end_part, title) {
+    return (end_part + "_" + title).toLowerCase().replace(/[^a-z0-9]+/g, '_') }
+
+module.exports = {to_code, authors}

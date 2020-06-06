@@ -2,6 +2,8 @@ var cheerio     = require('cheerio')
 var fs          = require('fs')
 var fsp         = require('fs').promises
 var mkdirp      = require('mkdirp')
+var authors     = require('./utils').authors
+var to_code     = require('./utils').to_code
 var all_headers = {}
 
 async function parse_toc(filename) {
@@ -13,8 +15,9 @@ async function parse_toc(filename) {
 	var ps         = $('p')
 	var heading    = false
 	var heading2   = false
+	var heading3   = false
 	var author     = false
-	var contents   = []
+	var contents   = {}
 
 	for (var i in ps) {
 	    if (!ps[i] || ps[i].name != 'p') continue
@@ -25,23 +28,26 @@ async function parse_toc(filename) {
 
 	    if (font.attr('size') == 5)  heading   = p.text().trim()
 	    if (font.attr('size') == 4)  heading2  = p.text().trim()
-	    if (font.attr('size') == 3)  author    = p.text().trim()
+	    if (font.attr('size') == 3)  heading3  = p.text().trim()
 
-	    all_headers[heading]   = true
-	    all_headers[heading2]  = true
-//	    all_headers[author]    = true
+	    if (authors[heading])  author = authors[heading]
+	    if (authors[heading2]) author = authors[heading2]
+	    if (authors[heading3]) author = authors[heading3]
 
 	    if (a) {
+		$('sup', p).text('')
 		var href     = (a.attr('href') || '').match(/.*\.htm/)
 		var target   = (a.attr('href') || '').match(/.*\.htm#(.*)/)
+		var title    = p.text().trim()
+		
 		if (target) target = target[1].trim()
 		if (href)   href   = href[0].trim()
 
-		contents.push({href, target, heading,
-			       heading2, author,
-			       title: p.text().trim()}) }}
-	console.log('thekeys', Object.keys(all_headers).join("\n"))
-return
+		var code     = to_code(folder + "_" + (href || '').replace('.htm', ''), title)
+		contents[code] = {href, target, heading,
+				  heading2, author,
+				  code, title} }}
+
 	var toc = {contents,
 		   folder,
 		   filename}
