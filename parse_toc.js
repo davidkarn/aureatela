@@ -52,7 +52,7 @@ async function parse_toc(filename) {
 		   folder,
 		   filename}
 
-	var dest_folder = 'data/sources/' + folder + "/"
+	var dest_folder = 'public/data/sources/' + folder + "/"
 	await mkdirp(dest_folder)
 	await fsp.writeFile(dest_folder + '/toc.json',
 			    JSON.stringify(toc),

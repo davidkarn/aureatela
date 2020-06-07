@@ -18,7 +18,7 @@ function parse_douay(filename) {
 	    books[book][chapter].verses.push(line) }
 
 	var save_chapter = (book, chapter) => {
-	    var folder = 'data/bible/' + book.toLowerCase() + '/' + chapter
+	    var folder = 'public/data/bible/' + book.toLowerCase() + '/' + chapter
 	    console.log(folder)
 	    mkdirp(folder).then((m, e) => {
 		fs.writeFile(folder + '/douay.json', JSON.stringify(books[book][chapter]), () => {}) }) }

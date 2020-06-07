@@ -4,6 +4,7 @@ var fs          = require('fs')
 var mkdirp      = require('mkdirp')
 var util        = require('util')
 var readfile    = util.promisify(fs.readFile)
+var to_code     = require('./utils').to_code
 
 var book_keys_tbl = {
     "genesis":			 "genesis",
@@ -134,8 +135,8 @@ var books_tbl   = [
     ["Malachi","Mal","Ml","Malahija","Malachi","Maleachi"],
     ["Matthew","Mt","Mat","Matt","Matej","Matthew","Matteus","Mateo","Matth"],
     ["Mark","Mr","Mar","Mrk","Mk","Mc","Marko","Mark","Marcus","Markus","Marc","Marcos"],
-    ["Luke","Lk","Luk","Lc","Luc","Lu","L","Luka","Luke","Lucas","Lukas","Lucas"],
-    ["John","Jn","Jan","Jhn","Joh","Jo","J","Io","Iv","Janez","John","Johannes","Jean","Juan"],
+    ["Luke","Lk","Luk","Lc","Luc","Lu","Luka","Luke","Lucas","Lukas","Lucas"],
+    ["John","Jn","Jan","Jhn","Joh","Jo","Janez","John","Johannes","Jean","Juan"],
     ["The Acts","Apd","Dej","DejAp","Act","Ac","Hand","Hnd","Apg","Dj","Hch","Eg","Acts","Dela","Dejanja","Handelingen","Apostelgeschichte","Hechos"],
     ["Romans","Rim","Rimlj","Rom","Ro","Rm","R","Erm","Rimljanom","Romans","Romeinen","Romanos"],
     ["1 Corinthians","1 Kor","1 Cor","1 Co","1 Ko","1 K","1 Korin�anom","1 Corinthians","1 Korintiers","1 Korinthe","1 Korinther","1 Corintios"],
@@ -213,12 +214,32 @@ function char_to_int(c){
     case 'M': return 1000
     default: return 0 }}
 
+function parse_refs(footnote) {
+    var all_books = books_tbl.reduce((a, b) => a.concat(b), []).join('|')
+    var regex     = new RegExp(
+	'\\b(' + all_books + ')\\b\\.? +([0-9ivxlcdmIVXLCDM]+[.,] +)?(\\d+(-\\d+)?(, \\d+)?)\\b[,.]?', 'ig')
+    var verses    = []
+    var matches   = footnote.match(regex) || []
+
+    matches.map((match) => {
+	var match     = regex.exec(footnote)
+	var chapter   = match[11] ? parse_roman(match[11].replace(/[^0-9ivxlcdm]/gi, '')) : 1
+	var verse     = Number.parseInt(match[12].match(/\d+/))
+	var book      = match[1]
+	for (var i in books_tbl) 
+	    if (member(books_tbl[i], book.toLowerCase()))
+		book = books_tbl[i][0]
+
+	verses.push({book, chapter, verses: [verse]}) })
+
+    return verses }
+
 async function async_each(array, callback) {
     for (let index = 0; index < array.length; index++) 
 	await callback(index, array[index], array) }
 
 async function parse_from_ttorg(filename) {
-    filename      = filename || 'sources/www.tertullian.org/fathers2/ANF-01/anf01-05.htm'
+    filename      = filename || 'sources/www.tertullian.org/fathers2/ANF-07/anf07-36.htm'
     var folder    = filename.match(/fathers2\/(.*?)\//)[1]
     var end_part  = filename.match(/fathers2\/(.*?)\.htm/)[1]
     var data      = await fsp.readFile(filename, 'utf8')
@@ -238,15 +259,16 @@ async function parse_from_ttorg(filename) {
 		title = el.text().trim()
 		break }
 
-	var code          = (end_part + "_" + title).toLowerCase().replace(/[^a-z0-9]+/g, '_')
+	var code          = to_code(end_part, title)
 	var article       = {title, code, filename, chapters: []}
 	var chapter       = {name:       '',
 			     index:       1,
 			     paragraphs: []}
 
-	var write_reference = async (book, chapter, verse, source_code, source_chapter, source_paragraph, text) => {
+	var write_reference = async (book, chapter, verse, source_code,
+				     source_chapter, source_paragraph, text) => {
 	    var book = book_keys_tbl[book]
-	    var path = 'data/bible/' + book + '/' + chapter + '/references.json'
+	    var path = 'public/data/bible/' + book + '/' + chapter + '/references.json'
 	    var data
 
 	    try {
@@ -261,17 +283,15 @@ async function parse_from_ttorg(filename) {
 	    return await fsp.writeFile(path, JSON.stringify(data)) }
 
 	var save_article = async (article) => {
-	    var dest_folder = 'data/sources/' + folder + "/" + article.code
+	    var dest_folder = 'public/data/sources/' + folder + "/" + article.code
 
 	    await async_each(article.chapters, async (i, chapter) => {
 		await async_each(chapter.paragraphs, async (i, paragraph) => {
 		    await async_each(paragraph.references, async (i, reference) => {
 			await async_each(reference.bible_refs, async (i, bible_ref) => {
-			    await async_each(bible_ref.verses, async (i, chapter) => {
-				var verse = chapter.verses[0]
-
+			    await async_each(bible_ref.verses, async (i, verse) => {
 				await write_reference(bible_ref.book,
-						      chapter.chapter,
+						      bible_ref.chapter,
 						      verse,
 						      article.code,
 						      chapter.index,
@@ -307,51 +327,10 @@ async function parse_from_ttorg(filename) {
 	    texts          = text.split(';')
 	    	    
             for (var i in texts) {
-		var text       = texts[i].trim().replace(', etc', '').replace('. etc', '')
-		var parsed     = text.toLowerCase().match(
-			/(^(Comp. )?[a-zA-Z 0-9]+?)\.? (([0-9ivxlcdmIVXLCDM]+[.,] )?(\d+(-\d+)?(, \d+)?)[,.] ?)+$/)
-		var verse      = false
+		var verses   = parse_refs(text)
+		console.log({text, verses})
+		verses.map((v) => bible_refs.push(v)) }
 		
-		if (parsed) {
-		    var book = parsed[1]
-		    if (parsed[1].slice(0, 6) == "Comp. ")
-			book = parsed[1].slice(6).replace(/[^a-z0-9 ]/g, '')
-		
-		    for (var i in books_tbl) {
-			if (member(books_tbl[i], book)) {
-			    var rest     = text
-				.slice(parsed[1].length)
-				.replace(/(\d+), (\d+[.;])/g, '$1-$2')
-				.replace(/^\. /, '')
-				.split(',')
-				.map((x) => x.trim())
-
-			    var verses   = rest.map(
-				(x) => {
-				    var parts    = x.split('.');
-				    var chapter  = parse_roman(parts[0])
-				    if (!parts[1]) parts[1] = '1'
-				    var _verses  = parts[1]
-					.split('-')
-					.map((n) => parse_roman(n))
-				    var verses   = []
-				    
-				    if (_verses.length > 1)
-					for (var i = Math.max(1, _verses[0]); i <= _verses[1]; i++)
-					    verses.push(i)
-				    else
-					verses = _verses
-				    
-				    verses = verses.filter((x) => x > 0)
-				    if (!verses.length) verses = [1]
-				    return {chapter, verses} })
-
-			    verse        = {book:      books_tbl[i][0],
-					    verses}
-
-			    bible_refs.push(verse) }}}}
-
-
 	    return {fn, code, folder, text, bible_refs}}
 
 	var process_paragraph = async (text, t2, index) => {
@@ -366,7 +345,7 @@ async function parse_from_ttorg(filename) {
 		    a.text('[fn-' + footnote[1] + '-' + footnote[2] + ':' + a.text() + '-nf]') } })
 
 	    text    = text.text()
-	    
+
 	    return {text,
 		    index,
 		    references: references}}
@@ -413,3 +392,4 @@ async function get_files(filename) {
 	    return await parse_from_ttorg(filename + folder + '/' + file) }) }) }
 
 get_files()
+//parse_from_ttorg()
