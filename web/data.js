@@ -24,9 +24,12 @@ export default class BibleData {
 		
 		axios.get('data/bible/' + book + '/' + chapter + '/references.json')
 		    .catch(do_nothing)
-		    .then((response) => {
+		    .then((response, err) => {
+			if (!response) response = {data: []}
+
 			deep_set(this.bible,
 				 [book, chapter, 'references'],
 				 response.data)
+			console.log('set refs', {book, chapter, response}, this.bible)
 			next(this.bible[book][chapter]) }) }) }}
 		

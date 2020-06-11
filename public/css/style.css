@@ -1,0 +1,48 @@
+body {
+    margin: 1.5em;
+    font-family: hoefler text, georgia, serif;
+    color: #333;
+    line-height: 1.4; }
+
+h1 {
+    font-size: 2em;
+    margin-left: 2em; }
+
+.verse {
+    margin-bottom: 0.33em; }
+
+.verse-number, .main-part, .annotations-part {
+    display: inline-block;
+    vertical-align: top; }
+
+.verse-number {
+    text-align: right;
+    width: 2.5em;
+    font-size: 1.33em;
+    color: #888;
+    position:relative;
+    top: -0.2em;
+    margin-right: 0.5em; }
+
+.main-part {
+    width: 60%;
+    min-width: 40em;
+    max-width: 75em; }
+
+.annotations-part {
+    width: 33%;
+    margin-left: 0.5em;
+    max-width: 40em;
+    min-width: 20em; }
+
+.annotations-part div.annotation-link {
+    display: inline-block;
+    color: #777;
+    margin-right: 0.5em; }
+
+.annotations-part div.annotation-link:hover {
+    cursor: pointer;
+    font-weight: bold;
+    color: #333; }
+    
+ 

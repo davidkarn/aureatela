@@ -33,8 +33,8 @@ class Main extends Component {
 						      {path, exact: true, strict: false}) })
 
 		       return __(BibleView, {book:          match.params.book || 'matthew',
-					     chapter:       match.params.chapter || 1,
-					     verse:         match.params.verse,
+					     chapter:       int(match.params.chapter) || 1,
+					     verse:         int(match.params.verse),
 					     translation:  'douay',
 					     reference:     match.params.reference})}}),
 	       
@@ -63,14 +63,24 @@ class BibleView extends Component {
 	     chapter:     this.props.chapter,
 	     verse:       this.props.verse,
 	     reference:   this.props.reference},
-	    () => {
-		this.setState({books: Object.assign()}) }) }
+	    (book) => {
+		this.setState({books: Object.assign(
+		    this.state.books,
+		    {[this.props.book]:
+		     {[this.props.chapter]: book}}) }) }) }		      
+
+    get_references(book, chapter, verse) {
+	var references      = deep_get(this.state.books,
+				       [book, chapter, 'references'],
+				       [])
+	console.log({references, verse})
+	return references.filter((x) => x.verse == verse) }
     
     render({book, chapter, verse, reference, translation}) {
 	var verses      = deep_get(this.state.books,
-				   [book, chapter, 'translations', translation],
+				   [book, chapter, 'translations', translation, 'verses'],
 				   [])
-		
+
 	return __(
 	    'div', {},
 	    __('div', {id: 'main-reader'},
@@ -83,7 +93,9 @@ class BibleView extends Component {
 		   __('div', {className: 'main-part'},
 		      verse),
 		   __('div', {className: 'annotations-part'},
-		     ))))) }}
+		      this.get_references(book, chapter, i + 1)
+		      .map((ref) => __('div', {className: 'annotation-link'},
+				       ref.folder))))))) }}
 
 
 
