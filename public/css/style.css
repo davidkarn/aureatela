@@ -30,6 +30,7 @@ h1 {
     max-width: 75em; }
 
 .annotations-part {
+    position: relative;
     width: 33%;
     margin-left: 0.5em;
     max-width: 40em;
@@ -43,6 +44,33 @@ h1 {
 .annotations-part div.annotation-link:hover {
     cursor: pointer;
     font-weight: bold;
+    color: #333; }
+
+.annotations-part div.open-reference .close-btn {
+    font-weight: bold;
+    color: #888;
+    position: absolute;
+    font-family: sans-serif;
+    cursor: pointer;
+    top: 0.25em;
+    right: 0.75em; }
+
+.annotations-part div.open-reference .close-btn:hover {
+    color: #333; }
+
+.annotations-part div.open-reference {
+    z-index: 50;
+    position: absolute;
+    border: 1px solid #eee;
+    border-radius: 0.5em;
+    background-color: white;
+    padding: 1.25em;
+    top: -3em;
+    left: -1.25em; }
+
+.annotations-part div.annotation-link:hover .open-reference {
+    cursor: default;
+    font-weight: normal;
     color: #333; }
     
  

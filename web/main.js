@@ -36,7 +36,8 @@ class Main extends Component {
 					     chapter:       int(match.params.chapter) || 1,
 					     verse:         int(match.params.verse),
 					     translation:  'douay',
-					     reference:     match.params.reference})}}),
+					     reference:     match.params.reference,
+					     ...props})}}),
 	       
 	       !window.location.hash && 
 	       __(Redirect, {from: "/", to: "/bible"}))) }}
@@ -75,11 +76,29 @@ class BibleView extends Component {
 				       [])
 	console.log({references, verse})
 	return references.filter((x) => x.verse == verse) }
+
+    open_reference(ref, verse) {
+	this.props.history.push('/bible/' + this.props.book + "/"
+				+ this.props.chapter + "/" + this.props.verse + "/"
+				+ ref.source_code + ":" + verse) }
+
+    close_reference() {
+	this.props.history.push('/bible/' + this.props.book + "/"
+				+ this.props.chapter + "/" + this.props.verse) }	
+
+    render_reference(ref) {
+	return __(
+	    'div', {className: 'open-reference'},
+	    __('div', {className: 'close-btn',
+		       onClick:   () => this.close_reference()},
+	       "x"),
+	    ref.text) }
     
     render({book, chapter, verse, reference, translation}) {
 	var verses      = deep_get(this.state.books,
 				   [book, chapter, 'translations', translation, 'verses'],
 				   [])
+	if (reference) reference = reference.split(':')
 
 	return __(
 	    'div', {},
@@ -94,8 +113,15 @@ class BibleView extends Component {
 		      verse),
 		   __('div', {className: 'annotations-part'},
 		      this.get_references(book, chapter, i + 1)
-		      .map((ref) => __('div', {className: 'annotation-link'},
-				       ref.folder))))))) }}
+		      .map((ref) => [
+			  reference
+			      && reference[0] == ref.source_code
+			      && reference[1] == i + 1
+			      && this.render_reference(ref),
+
+			  __('div', {className: 'annotation-link',
+				     onClick: () => this.open_reference(ref, i + 1)},
+			     ref.folder)])))))) }}
 
 
 
