@@ -11,6 +11,7 @@ async function parse_toc(filename) {
     var folder    = filename.match(/fathers2\/(.*?)\//)[1]
     
     fs.readFile(filename, 'utf8', async (err, data) => {
+	console.log({filename})
 	var $          = cheerio.load(data)
 	var ps         = $('p')
 	var heading    = false

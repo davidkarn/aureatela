@@ -92,7 +92,10 @@ class BibleView extends Component {
 	    __('div', {className: 'close-btn',
 		       onClick:   () => this.close_reference()},
 	       "x"),
-	    ref.text) }
+	    __('p', {className: 'ref-author-name'}, ref.author),
+	    __('p', {}, ref.text),
+	    __('p', {className: 'ref-title', style: {marginBottom: 0}},
+	       ref.title)) }
     
     render({book, chapter, verse, reference, translation}) {
 	var verses      = deep_get(this.state.books,
@@ -121,7 +124,7 @@ class BibleView extends Component {
 
 			  __('div', {className: 'annotation-link',
 				     onClick: () => this.open_reference(ref, i + 1)},
-			     ref.folder)])))))) }}
+			     ref.author || ref.folder)])))))) }}
 
 
 

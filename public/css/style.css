@@ -2,7 +2,11 @@ body {
     margin: 1.5em;
     font-family: hoefler text, georgia, serif;
     color: #333;
-    line-height: 1.4; }
+    line-height: 1.6; }
+
+p {
+    margin-bottom: 1em;
+    margin-top: 0; }
 
 h1 {
     font-size: 2em;
@@ -73,4 +77,11 @@ h1 {
     font-weight: normal;
     color: #333; }
     
- 
+.open-reference .ref-author-name {
+    font-size: 0.85em;
+    font-weight: bold; }
+
+
+.open-reference .ref-title {
+    font-size: 0.85em;
+    color: #888; }

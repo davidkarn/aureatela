@@ -243,6 +243,8 @@ async function parse_from_ttorg(filename) {
     var folder    = filename.match(/fathers2\/(.*?)\//)[1]
     var end_part  = filename.match(/fathers2\/(.*?)\.htm/)[1]
     var data      = await fsp.readFile(filename, 'utf8')
+    var toc       = await fsp.readFile('public/data/sources/' + folder + "/toc.json", 'utf8')
+    toc           = JSON.parse(toc)
     if (data) {
 	var $             = cheerio.load(data)
 	var collection    = $('title').text().trim()
@@ -260,7 +262,9 @@ async function parse_from_ttorg(filename) {
 		break }
 
 	var code          = to_code(end_part, title)
-	var article       = {title, code, filename, chapters: []}
+	var author        = toc.contents[code] && toc.contents[code].author
+	console.log({author, title})
+	var article       = {title, code, author, filename, chapters: []}
 	var chapter       = {name:       '',
 			     index:       1,
 			     paragraphs: []}
@@ -277,8 +281,9 @@ async function parse_from_ttorg(filename) {
 	  	    
 	    if (data)  data     = JSON.parse(data)
 	    else       data     = []
-
-	    data.push({chapter, verse, source_code, source_chapter, source_paragraph, folder, text})
+					 
+            data.push({chapter, verse, source_code, source_chapter,
+		       source_paragraph, folder, text, title, author})
 	    
 	    return await fsp.writeFile(path, JSON.stringify(data)) }
 
@@ -328,7 +333,7 @@ async function parse_from_ttorg(filename) {
 	    	    
             for (var i in texts) {
 		var verses   = parse_refs(text)
-		console.log({text, verses})
+
 		verses.map((v) => bible_refs.push(v)) }
 		
 	    return {fn, code, folder, text, bible_refs}}
