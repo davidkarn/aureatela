@@ -45,36 +45,39 @@ class Main extends Component {
 class BibleView extends Component {
     constructor(props) {
 	super(props)
-	this.state        = {books:  {}}}
+	this.state        = {books:  {},
+			     toc:    {bible: {}}}}
 
     componentWillMount() {
 	this.bible_data = new BibleData()
-	this.load_data() }
+	this.bible_data.get_toc(
+	    (toc) => this.setState({toc}) )
+	this.load_data(this.props) }
 
     componentWillReceiveProps(props) {
 	if (props.book          != this.props.book
 	    || props.chapter    != this.props.chapter
 	    || props.verse      != this.props.verse
 	    || props.reference  != this.props.reference)
-	    this.load_data() }
+	    this.load_data(props) }
 
-    load_data() {
+    load_data(props) {
 	this.bible_data.get_chapter(
-	    {book:        this.props.book,
-	     chapter:     this.props.chapter,
-	     verse:       this.props.verse,
-	     reference:   this.props.reference},
+	    {book:        props.book,
+	     chapter:     props.chapter,
+	     verse:       props.verse,
+	     reference:   props.reference},
 	    (book) => {
 		this.setState({books: Object.assign(
 		    this.state.books,
-		    {[this.props.book]:
-		     {[this.props.chapter]: book}}) }) }) }		      
+		    {[props.book]:
+		     {[props.chapter]: book}}) }) }) }		      
 
     get_references(book, chapter, verse) {
 	var references      = deep_get(this.state.books,
 				       [book, chapter, 'references'],
 				       [])
-	console.log({references, verse})
+
 	return references.filter((x) => x.verse == verse) }
 
     open_reference(ref, verse) {
@@ -107,6 +110,26 @@ class BibleView extends Component {
 	    'div', {},
 	    __('div', {id: 'main-reader'},
 	       __('h1', {}, book, " ", chapter),
+	       __('div', {id: 'open-navigation'},
+		  
+		  __('i', {className: 'fa fa-book',
+			   onClick:   () => this.setState({nav_open: !this.state.nav_open}),
+			   id: 'open-button'})),
+		  
+	       this.state.nav_open && __(
+		   'div', {id: 'navigation'},
+		      
+		   Object.keys(this.state.toc.bible).map((book) => __(
+		       'div', {},
+		       __('strong', {}, book),
+			  
+		       this.state.toc.bible[book].map((x, i) => __(
+			   'div', {className: 'chapter-link',
+				   onClick: () => {
+				       this.setState({nav_open: false})
+				       this.props.history.push(
+					   "/bible/" + book + "/" + (i + 1)) }},
+			   i + 1))))),
 	       
 	       verses.map((verse, i) => __(
 		   'div', {className: 'verse'},

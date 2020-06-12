@@ -4,6 +4,12 @@ export default class BibleData {
     bible     = {}
     sources   = {}
 
+    get_toc(next) {
+	axios.get('data/toc.json')
+	    .catch(do_nothing)
+	    .then((response) => {
+		next(response.data) }) }
+
     get_chapter(options, next) {
 	var {book, chapter, verse, reference, translation} = options
 	translation     = translation  || 'douay'

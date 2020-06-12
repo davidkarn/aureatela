@@ -85,3 +85,45 @@ h1 {
 .open-reference .ref-title {
     font-size: 0.85em;
     color: #888; }
+
+
+
+#open-navigation {
+    position: absolute;
+    top: 1.35em;
+    left: 1em;
+    font-size: 1.6em; }
+
+#open-button {
+    cursor: pointer;
+    color: #888; }
+
+#open-button:hover {
+    color: #333; }
+
+
+
+#navigation {
+    position: absolute;
+    top: 4.5em;
+    left: 1em;
+    border: 1px solid #eee;
+    background-color: white;
+    padding: 1em;
+    padding-top: 0.25em;
+    border-radius: 0.5em;
+    z-index: 50;
+    width: 20em;
+    max-height: calc(100vh - 8em);
+    overflow-y: auto;
+}
+
+#navigation strong {
+    margin-top: 0.75em;
+    display: block; }
+
+#navigation .chapter-link {
+    cursor: pointer;
+    margin-right: 0.5em;
+    display: inline-block; }
+    
