@@ -33,8 +33,8 @@ class Main extends Component {
 						      {path, exact: true, strict: false}) })
 
 		       return __(BibleView, {book:          match.params.book || 'matthew',
-					     chapter:       int(match.params.chapter) || 1,
-					     verse:         int(match.params.verse),
+					     chapter:       int(match.params.chapter || 1),
+					     verse:         int(match.params.verse || 1),
 					     translation:  'douay',
 					     reference:     match.params.reference,
 					     ...props})}}),
@@ -77,10 +77,16 @@ class BibleView extends Component {
 	var references      = deep_get(this.state.books,
 				       [book, chapter, 'references'],
 				       [])
-
-	return references.filter((x) => x.verse == verse) }
+	var uniq            = {}
+	for (var i in references)
+	    uniq[references[i].text] = references[i]
+	references          = Object.values(uniq)
+	
+	if (!verse)  return references
+	else         return references.filter((x) => x.verse == verse) }
 
     open_reference(ref, verse) {
+	if (!verse) verse = ref.verse
 	this.props.history.push('/bible/' + this.props.book + "/"
 				+ this.props.chapter + "/" + this.props.verse + "/"
 				+ ref.source_code + ":" + verse) }
@@ -92,6 +98,10 @@ class BibleView extends Component {
     render_reference(ref) {
 	return __(
 	    'div', {className: 'open-reference'},
+	    __('div', {className: 'next-btn fa fa-chevron-right',
+		       onClick:   () => this.go_to_next_reference(ref)}),
+	    __('div', {className: 'prev-btn fa fa-chevron-left',
+		       onClick:   () => this.go_to_previous_reference(ref)}),
 	    __('div', {className: 'close-btn',
 		       onClick:   () => this.close_reference()},
 	       "x"),
@@ -99,7 +109,40 @@ class BibleView extends Component {
 	    __('p', {}, ref.text.replace(/\[fn-.*?-nf\]/g, '*')),
 	    __('p', {className: 'ref-title', style: {marginBottom: 0}},
 	       ref.title)) }
+
+    sort_references(a, b) {
+	if (a.verse > b.verse)       return 1
+	else if (b.verse > a.verse)  return -1
+	else {
+	    if (a.source_code + a.source_paragraph > b.source_code + b.source_paragraph)
+		return 1
+	    else return -1 }}
     
+    go_to_next_reference(ref) {
+	var refs      = this.get_references(this.props.book,
+					    this.props.chapter)
+	    .sort(this.sort_references)
+	var found     = false
+	
+	for (var i in refs) {
+	    var r = refs[i]
+	    console.log({r, ref}, r == ref)
+	    if (found)      return this.open_reference(r)
+	    if (r == ref)   found = true }}
+
+    go_to_previous_reference(ref) {
+	var refs      = this.get_references(this.props.book,
+					    this.props.chapter)
+	    .sort(this.sort_references)
+	var last      = false
+	
+	for (var i in refs) {
+	    var r = refs[i]
+	    if (last && r == ref)
+		return this.open_reference(last)
+	    last  = r }}
+
+	
     render({book, chapter, verse, reference, translation}) {
 	var verses      = deep_get(this.state.books,
 				   [book, chapter, 'translations', translation, 'verses'],
@@ -139,6 +182,7 @@ class BibleView extends Component {
 		      verse),
 		   __('div', {className: 'annotations-part'},
 		      this.get_references(book, chapter, i + 1)
+		      .sort(this.sort_references)
 		      .map((ref) => [
 			  reference
 			      && reference[0] == ref.source_code

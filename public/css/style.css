@@ -86,6 +86,27 @@ h1 {
     font-size: 0.85em;
     color: #888; }
 
+.prev-btn, .next-btn {
+    position: absolute;
+    left: -0.85em;
+    top: 2em;
+    cursor: pointer;
+    width: 1.5em;
+    height: 1.5em;
+    padding-top: 0.5em;
+    border-radius: 0.25em;
+    background:white;
+    border: 1px solid #eee;
+    text-align: center;
+    vertical-align: middle;
+    color: #888; }
+
+.next-btn {
+    left: auto;
+    right: -0.85em; }
+
+.prev-btn:hover, .next-btn:hover {
+    color: #333; }
 
 
 #open-navigation {
@@ -127,3 +148,5 @@ h1 {
     margin-right: 0.5em;
     display: inline-block; }
     
+
+
