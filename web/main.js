@@ -96,7 +96,7 @@ class BibleView extends Component {
 		       onClick:   () => this.close_reference()},
 	       "x"),
 	    __('p', {className: 'ref-author-name'}, ref.author),
-	    __('p', {}, ref.text),
+	    __('p', {}, ref.text.replace(/\[fn-.*?-nf\]/g, '*')),
 	    __('p', {className: 'ref-title', style: {marginBottom: 0}},
 	       ref.title)) }
     
