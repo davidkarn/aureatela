@@ -19,6 +19,7 @@
 						"babel-loader": "^7.1.5",
 						"babel-plugin-transform-class-properties": "^6.24.1",
 						"cheerio": "^1.0.0-rc.3",
+						"fs-extra": "^9.0.1",
 						"inferno": "^7.3.2",
 						"inferno-compat": "^7.3.2",
 						"inferno-component": "^7.3.2",
