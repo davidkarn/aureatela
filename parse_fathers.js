@@ -1,10 +1,19 @@
 var cheerio     = require('cheerio')
-var fsp         = require('fs').promises
-var fs          = require('fs')
+var fsprom      = require('fs').promises
+//var fs          = require('fs')
 var mkdirp      = require('mkdirp')
 var util        = require('util')
-var readfile    = util.promisify(fs.readFile)
+//var readfile    = util.promisify(fs.readFile)
 var to_code     = require('./utils').to_code
+const fs = require('fs')
+const { promisify } = require('util')
+
+const readFileAsync = promisify(fs.readFile)
+const writeFileAsync = promisify(fs.writeFile)
+
+var fsp = {readdir: fsprom.readdir,
+	   readFile: fs.readFileSync,
+	   writeFile: fs.writeFileSync}
 
 var book_keys_tbl = {
     "genesis":			 "genesis",
@@ -15,36 +24,36 @@ var book_keys_tbl = {
     "joshua":			 "joshua",
     "judges":			 "judges",
     "ruth":			 "ruth",
-    "1 samuel":			 "1 samuel",
-    "2 samuel":			 "2 samuel",
-    "1 kings":			 "1 kings",
-    "2 kings":			 "2 kings",
+    "1 samuel":			 "1 kings",
+    "2 samuel":			 "2 kings",
+    "1 kings":			 "3 kings",
+    "2 kings":			 "4 kings",
     "1 chronicles":		 "1 chronicles",
     "2 chronicles":		 "2 chronicles",
-    "ezra":			 "ezra",
-    "nehemiah":			 "nehemiah",
+    "ezra":			 "1 esdras",
+    "nehemiah":			 "2 esdras",
     "esther":			 "esther",
     "job":			 "job",
     "psalms":			 "psalms",
     "proverbs":			 "proverbs",
     "ecclesiastes":		 "ecclesiastes",
-    "song of solomon":		 "song of solomon",
+    "song of solomon":		 "canticle of canticles",
     "isaiah":			 "isaias",
-    "jeremiah":			 "jeremiah",
+    "jeremiah":			 "jeremias",
     "lamentations":		 "lamentations",
     "ezekiel":			 "ezechiel",
     "daniel":			 "daniel",
-    "hosea":			 "hosea",
+    "hosea":			 "osee",
     "joel":			 "joel",
     "amos":			 "amos",
     "obadiah":			 "obadiah",
     "jonah":			 "jonah",
-    "micah":			 "micah",
+    "micah":			 "micheas",
     "nahum":			 "nahum",
-    "habakkuk":			 "habakkuk",
-    "zephaniah":		 "zephaniah",
-    "haggai":			 "haggai",
-    "zechariah":		 "zechariah",
+    "habakkuk":			 "habacuc",
+    "zephaniah":		 "sophonias",
+    "haggai":			 "aggeus",
+    "zechariah":		 "zecharias",
     "malachi":			 "malachias",
     "matthew":			 "matthew",
     "mark":			 "mark",
@@ -234,6 +243,64 @@ function parse_refs(footnote) {
 
     return verses }
 
+
+
+var test_refs = {
+    "1 Cor. ii. 14.": [],
+    "Ps. lxxii. 3.": [],
+    "Hab. ii. 4; Rom. i. 17.": [],
+    "John xx. 19.": [],
+    "1 Cor. ii. 9.": [],
+    "1 Cor. iii. 4.": [],
+    "Ps. lxxxii. 6.": [],
+    "Ps. cxlviii. 5.": [],
+    "Ps. cxxi. 1, 2.": [],
+    "John i. 9.": [],
+    "John i. 30.": [],
+    "John i. 16.": [],
+    "Matt. v. 8.": [],
+    "Deus.": [],
+    "Gen. i.": [],
+    "1 Cor. viii. 4.": [],
+    "Ps. xxii. 6.": [],
+    "Job xxv. 6.": [],
+    "Wisd. xi. 21.": [],
+    "Eccles. x. 1.": [],
+    "Ex. viii.": [],
+    "Ps. civ. 24.": [],
+    "John i. 26, 27.": [],
+    "Matt. v. 8.": [],
+    "Ex. iii. 14.": [],
+    "Rom. i. 20-22.": [],
+    "Matt. xiv. 25.": [],
+    "Eph. v. 8.": [],
+    "John i. 5.": [],
+    "John v. 35.": [],
+    "John i. 20, 27.": [],
+    "Ps. xxvii. 12.": [],
+    "Matt. vii. 7.": [],
+    "Matt. xxi. 23-27; Mark xii. 28-33; Luke xx. 2-8.": [],
+    "Ps. cxxxii. 17.": [],
+    "Phil. iii. 20. [R.V.: \"Our citizenship is in heaven.\"": [],
+    "Ps. ii. 7, 8.": [],
+    "Ps. xv. 5.": [],
+    "Gen. ii. 23.": [],
+    "Eph. v. 28, 29.": [],
+    "Matt. xiii. 3-25.": [],
+    "Matt. ii. 2.": [],
+    "Rom. vi. 14.": [],
+    "Gal. iv. 4, 5.": []}
+
+function test_references() {
+    Object.keys(test_refs).slice(0, 20).map((fn) => {
+	var text = fn
+	if (text.match(/\[.*?\]/))
+	    text = text.match(/\[(.*?)\]/)[1]
+	console.log([text, JSON.stringify(parse_refs(text))]) 
+	console.log([fn, JSON.stringify(parse_refs(fn))]) }) }
+
+
+
 async function async_each(array, callback) {
     for (let index = 0; index < array.length; index++) 
 	await callback(index, array[index], array) }
@@ -243,8 +310,11 @@ async function parse_from_ttorg(filename) {
     var folder    = filename.match(/fathers2\/(.*?)\//)[1]
     var end_part  = filename.match(/fathers2\/(.*?)\.htm/)[1]
     var data      = await fsp.readFile(filename, 'utf8')
+
     var toc       = await fsp.readFile('public/data/sources/' + folder + "/toc.json", 'utf8')
     toc           = JSON.parse(toc)
+
+    
     if (data) {
 	var $             = cheerio.load(data)
 	var collection    = $('title').text().trim()
@@ -263,29 +333,34 @@ async function parse_from_ttorg(filename) {
 
 	var code          = to_code(end_part, title)
 	var author        = toc.contents[code] && toc.contents[code].author
-	console.log({author, title})
 	var article       = {title, code, author, filename, chapters: []}
 	var chapter       = {name:       '',
 			     index:       1,
 			     paragraphs: []}
 
-	var write_reference = async (book, chapter, verse, source_code,
-				     source_chapter, source_paragraph, text) => {
-	    var book = book_keys_tbl[book]
-	    var path = 'public/data/bible/' + book + '/' + chapter + '/references.json'
-	    var data
-
+	var write_reference = async (book, chapter, verse, source_code, source_chapter, source_paragraph, text) => {
 	    try {
-		data = await fsp.readFile(path) }
-	    catch { data = '[]' }
-	  	    
-	    if (data)  data     = JSON.parse(data)
-	    else       data     = []
+		var book = book_keys_tbl[book]
+		var path = 'public/data/bible/' + book + '/' + chapter + '/references.json'
+		var data
+
+		try {
+		    data = await fsp.readFile(path) }
+		catch { data = '[]' }
+
+		try {
+		    if (data)  data     = JSON.parse(data)
+		    else       data     = [] }
+		catch {
+		    console.log('error parsing json: ' + path)
+		    return }
 					 
-            data.push({chapter, verse, source_code, source_chapter,
-		       source_paragraph, folder, text, title, author})
+		data.push({chapter, verse, source_code, source_chapter,
+			   source_paragraph, folder, text, title, author})
 	    
-	    return await fsp.writeFile(path, JSON.stringify(data)) }
+		await fsp.writeFile(path, JSON.stringify(data)) }
+	    catch {
+		console.log('failed writing reference to ' + path) }}
 
 	var save_article = async (article) => {
 	    var dest_folder = 'public/data/sources/' + folder + "/" + article.code
@@ -305,7 +380,7 @@ async function parse_from_ttorg(filename) {
 				console.log('written') }) }) })  }) })
 
 	    await mkdirp(dest_folder)
-	    return await fsp.writeFile(dest_folder + '/source.json', JSON.stringify(article), () => {}) }
+	    await fsp.writeFile(dest_folder + '/source.json', JSON.stringify(article), () => {}) }
 	
 	var fns           = {}
 	var get_fn_file   = async (folder, fn) => {
@@ -394,7 +469,8 @@ async function get_files(filename) {
 	async_each(files, async (i, file) => {
 	    if (!file.match('nf')) return
 	    console.log(filename + folder + "/" + file)
-	    return await parse_from_ttorg(filename + folder + '/' + file) }) }) }
+	    await parse_from_ttorg(filename + folder + '/' + file) }) }) }
 
 get_files()
 //parse_from_ttorg()
+
