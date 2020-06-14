@@ -32,26 +32,99 @@ class Main extends Component {
 			   match = match || matchPath(props.location.pathname,
 						      {path, exact: true, strict: false}) })
 
-		       return __(BibleView, {book:          match.params.book || 'matthew',
-					     chapter:       int(match.params.chapter || 1),
-					     verse:         int(match.params.verse || 1),
-					     translation:  'douay',
-					     reference:     match.params.reference,
-					     ...props})}}),
+		       return __(MainPage, {viewing:      'bible',
+					    bible_params: {
+						book:          match.params.book || 'matthew',
+						chapter:       int(match.params.chapter || 1),
+						verse:         int(match.params.verse || 1)},
+					    translation:  'douay',
+					    reference:     match.params.reference,
+					    ...props})}}),
 	       
 	       !window.location.hash && 
 	       __(Redirect, {from: "/", to: "/bible"}))) }}
 
-class BibleView extends Component {
+
+
+class MainPage extends Component {
+    constructor(props) {
+	super(props)
+	this.state        = {toc:    {bible: {}}}}
+
+
+    componentWillMount() {
+	this.bible_data = new BibleData()
+	this.bible_data.get_toc(
+	    (toc) => this.setState({toc}) )}
+    
+    open_reference(ref, verse) {
+	if (!verse) verse = ref.verse
+	this.props.history.push('/bible/' + ref.book + "/"
+				+ ref.chapter + "/" + ref.verse + "/"
+				+ ref.source_code + ":" + verse) }
+
+    close_reference() {
+	this.props.history.push('/bible/' + ref.book + "/"
+				+ ref.chapter + "/" + ref.verse) }	
+
+    get_references(book, chapter, verse) {
+	return get_references(book, chapter, verse, this.state.books) }
+    
+    go_to_next_reference(ref, refs) {
+	var found     = false
+	
+	for (var i in refs) {
+	    var r = refs[i]
+	    console.log({r, ref}, r == ref)
+	    if (found)      return this.open_reference(r)
+	    if (r == ref)   found = true }}
+
+    go_to_previous_reference(ref, refs) {
+	var last      = false
+	
+	for (var i in refs) {
+	    var r = refs[i]
+	    if (last && r == ref)
+		return this.open_reference(last)
+	    last  = r }}
+
+	
+    render({bible_params, reference, translation}) {
+	return __(
+	    'div', {},
+	    __('div', {id: 'main-reader'},
+	       __(Navigation, {nav_open: this.state.nav_open,
+			       toc:      this.state.toc,
+			       actions: {
+				   open_chapter: (book, verse) => {
+				       this.setState({nav_open: false})
+				       this.props.history.push(
+					   "/bible/" + book + "/" + verse) },
+				   open_nav: () => {
+				       this.setState({nav_open: !this.state.nav_open}) }}}),
+
+	       __(BibleChapter, {
+		   book:        bible_params.book,
+		   chapter:     bible_params.chapter,
+		   verse:       bible_params.verse,
+		   bible_data:  this.bible_data,
+		   reference:   reference,
+		   translation: translation,
+		   actions: {
+		       open_reference:             this.open_reference.bind(this),
+		       close_reference:            this.close_reference.bind(this),
+		       go_to_next_reference:       this.go_to_next_reference.bind(this),
+		       go_to_previous_reference:   this.go_to_previous_reference.bind(this)}}))) }}
+
+
+class BibleChapter extends Component {
     constructor(props) {
 	super(props)
 	this.state        = {books:  {},
 			     toc:    {bible: {}}}}
 
     componentWillMount() {
-	this.bible_data = new BibleData()
-	this.bible_data.get_toc(
-	    (toc) => this.setState({toc}) )
+	this.bible_data = this.props.bible_data
 	this.load_data(this.props) }
 
     componentWillReceiveProps(props) {
@@ -71,128 +144,103 @@ class BibleView extends Component {
 		this.setState({books: Object.assign(
 		    this.state.books,
 		    {[props.book]:
-		     {[props.chapter]: book}}) }) }) }		      
+		     {[props.chapter]: book}}) }) }) }
 
-    get_references(book, chapter, verse) {
-	var references      = deep_get(this.state.books,
-				       [book, chapter, 'references'],
-				       [])
-	var uniq            = {}
-	for (var i in references)
-	    uniq[references[i].text] = references[i]
-	references          = Object.values(uniq)
-	
-	if (!verse)  return references
-	else         return references.filter((x) => x.verse == verse) }
-
-    open_reference(ref, verse) {
-	if (!verse) verse = ref.verse
-	this.props.history.push('/bible/' + this.props.book + "/"
-				+ this.props.chapter + "/" + this.props.verse + "/"
-				+ ref.source_code + ":" + verse) }
-
-    close_reference() {
-	this.props.history.push('/bible/' + this.props.book + "/"
-				+ this.props.chapter + "/" + this.props.verse) }	
-
-    render_reference(ref) {
-	return __(
-	    'div', {className: 'open-reference'},
-	    __('div', {className: 'next-btn fa fa-chevron-right',
-		       onClick:   () => this.go_to_next_reference(ref)}),
-	    __('div', {className: 'prev-btn fa fa-chevron-left',
-		       onClick:   () => this.go_to_previous_reference(ref)}),
-	    __('div', {className: 'close-btn',
-		       onClick:   () => this.close_reference()},
-	       "x"),
-	    __('p', {className: 'ref-author-name'}, ref.author),
-	    __('p', {}, ref.text.replace(/\[fn-.*?-nf\]/g, '*')),
-	    __('p', {className: 'ref-title', style: {marginBottom: 0}},
-	       ref.title)) }
-
-    sort_references(a, b) {
-	if (a.verse > b.verse)       return 1
-	else if (b.verse > a.verse)  return -1
-	else {
-	    if (a.source_code + a.source_paragraph > b.source_code + b.source_paragraph)
-		return 1
-	    else return -1 }}
-    
-    go_to_next_reference(ref) {
-	var refs      = this.get_references(this.props.book,
-					    this.props.chapter)
-	    .sort(this.sort_references)
-	var found     = false
-	
-	for (var i in refs) {
-	    var r = refs[i]
-	    console.log({r, ref}, r == ref)
-	    if (found)      return this.open_reference(r)
-	    if (r == ref)   found = true }}
-
-    go_to_previous_reference(ref) {
-	var refs      = this.get_references(this.props.book,
-					    this.props.chapter)
-	    .sort(this.sort_references)
-	var last      = false
-	
-	for (var i in refs) {
-	    var r = refs[i]
-	    if (last && r == ref)
-		return this.open_reference(last)
-	    last  = r }}
-
-	
-    render({book, chapter, verse, reference, translation}) {
+    render({book, chapter, verse, reference, translation, actions}) {
 	var verses      = deep_get(this.state.books,
 				   [book, chapter, 'translations', translation, 'verses'],
 				   [])
 	if (reference) reference = reference.split(':')
 
 	return __(
-	    'div', {},
-	    __('div', {id: 'main-reader'},
-	       __('h1', {}, book, " ", chapter),
-	       __('div', {id: 'open-navigation'},
+	    'div', {className: 'bible-book'},
+	    __('h1', {}, book, " ", chapter),
+
+	    __(Verses, {verses, books: this.state.books,
+			book, chapter, reference, actions})) }}
+
+
+
+function Navigation({actions, nav_open, toc}) {
+    return __(
+	'div', {},
+	__('div', {id: 'open-navigation'},
+	   __('i', {className: 'fa fa-book',
+		    onClick:   () => actions.open_nav(), 
+		    id: 'open-button'})),
 		  
-		  __('i', {className: 'fa fa-book',
-			   onClick:   () => this.setState({nav_open: !this.state.nav_open}),
-			   id: 'open-button'})),
-		  
-	       this.state.nav_open && __(
-		   'div', {id: 'navigation'},
+	nav_open && __(
+	    'div', {id: 'navigation'},
 		      
-		   Object.keys(this.state.toc.bible).map((book) => __(
-		       'div', {},
-		       __('strong', {}, book),
+	    Object.keys(toc.bible).map((book) => __(
+		'div', {},
+		__('strong', {}, book),
 			  
-		       this.state.toc.bible[book].map((x, i) => __(
-			   'div', {className: 'chapter-link',
-				   onClick: () => {
-				       this.setState({nav_open: false})
-				       this.props.history.push(
-					   "/bible/" + book + "/" + (i + 1)) }},
-			   i + 1))))),
+		toc.bible[book].map((x, i) => __(
+		    'div', {className: 'chapter-link',
+			    onClick:   () => actions.open_chapter(book, i + 1)},
+		    i + 1)))))) }
+
+function get_references(book, chapter, verse, books) {
+    var references      = deep_get(books,
+				   [book, chapter, 'references'],
+				   [])
+    var uniq            = {}
+    for (var i in references)
+	uniq[references[i].text] = references[i]
+    references          = Object.values(uniq)
+    references.map((r) => r.book = book)
+    
+    if (!verse)  return references
+    else         return references.filter((x) => x.verse == verse) }
+
+function sort_references(a, b) {
+    if (a.verse > b.verse)       return 1
+    else if (b.verse > a.verse)  return -1
+    else {
+	if (a.source_code + a.source_paragraph > b.source_code + b.source_paragraph)
+	    return 1
+	else return -1 }}
+    
+
+function Verses({verses, books, book, chapter, reference, actions}) {
+    var all_references = get_references(book, chapter, false, books)
+	.sort(sort_references)
+    return __(
+	'div', {className: 'verses'},
+	verses.map((verse, i) => __(
+	    'div', {className: 'verse'},
+	    __('div', {className: 'verse-number'},
+	       i + 1),
+	    __('div', {className: 'main-part'},
+	       verse),
+	    __('div', {className: 'annotations-part'},
+	       all_references
+	       .filter((r) => r.verse == i+ 1)
+	       .map((ref) => [
+		   reference
+		       && reference[0] == ref.source_code
+		       && reference[1] == i + 1
+		       && __(Reference, {reference: ref, actions, all_references}), 
 	       
-	       verses.map((verse, i) => __(
-		   'div', {className: 'verse'},
-		   __('div', {className: 'verse-number'},
-		      i + 1),
-		   __('div', {className: 'main-part'},
-		      verse),
-		   __('div', {className: 'annotations-part'},
-		      this.get_references(book, chapter, i + 1)
-		      .sort(this.sort_references)
-		      .map((ref) => [
-			  reference
-			      && reference[0] == ref.source_code
-			      && reference[1] == i + 1
-			      && this.render_reference(ref),
+		   __('div', {className: 'annotation-link',
+			      onClick: () => actions.open_reference(ref, i + 1)},
+		      ref.author || ref.folder)]))))) }
 
-			  __('div', {className: 'annotation-link',
-				     onClick: () => this.open_reference(ref, i + 1)},
-			     ref.author || ref.folder)])))))) }}
-
+function Reference({reference, all_references, actions}) {
+    return __(
+	'div', {className: 'open-reference'},
+	__('div', {className: 'next-btn fa fa-chevron-right',
+		   onClick:   () => actions.go_to_next_reference(reference, all_references)}),
+	__('div', {className: 'prev-btn fa fa-chevron-left',
+		   onClick:   () => actions.go_to_previous_reference(reference, all_references)}),
+	__('div', {className: 'close-btn',
+		   onClick:   () => actions.close_reference()},
+	   "x"),
+	__('p', {className: 'reference-author-name'}, reference.author),
+	__('p', {}, reference.text.replace(/\[fn-.*?-nf\]/g, '*')),
+	__('p', {className: 'reference-title', style: {marginBottom: 0}},
+	   reference.title)) }
 
 
 render(
