@@ -3,6 +3,7 @@ import axios      from 'axios'
 export default class BibleData {
     bible     = {}
     sources   = {}
+    readings  = false
 
     get_toc(next) {
 	axios.get('data/toc.json')
@@ -10,6 +11,40 @@ export default class BibleData {
 	    .then((response) => {
 		next(response.data) }) }
 
+    get_lectionary(year, month, day, translation, on_readings, on_bible) {
+	var do_get_lectionary = () => {
+	    var reading
+	    
+	    for (var i in this.readings) {
+		reading = this.readings[i]
+		if (Number.parseInt(reading.day) == day
+		    && Number.parseInt(reading.month) == month
+		    && Number.parseInt(reading.year) == year)
+		    break; }
+
+	    on_readings(reading)
+	    var chapters = {}
+	    reading.readings.map((r) => {
+		var book = r.book
+		r.verses.map((v) => {
+		    var key = [book, v.chapter].join('-')
+		    if (!chapters[key])
+			chapters[key] = {book, chapter: v.chapter}}) })
+
+	    Object.values(chapters).map((item) => {
+		this.get_chapter({book: item.book, chapter: item.chapter, translation},
+			    on_bible) }) }
+	
+	if (this.readings) 
+	    do_get_lectionary()
+	else
+	    axios.get('data/readings.json')
+	    .catch(do_nothing)
+	    .then((response) => {
+		this.readings = response.data
+		do_get_lectionary() }) }
+
+    
     get_chapter(options, next) {
 	var {book, chapter, verse, reference, translation} = options
 	translation     = translation  || 'douay'
@@ -26,7 +61,7 @@ export default class BibleData {
 		deep_set(this.bible,
 			 [book, chapter, 'translations', translation],
 			 response.data)
-		next(this.bible[book][chapter])
+		next(this.bible[book][chapter], book, chapter)
 		
 		axios.get('data/bible/' + book + '/' + chapter + '/references.json')
 		    .catch(do_nothing)
@@ -36,6 +71,6 @@ export default class BibleData {
 			deep_set(this.bible,
 				 [book, chapter, 'references'],
 				 response.data)
-			console.log('set refs', {book, chapter, response}, this.bible)
-			next(this.bible[book][chapter]) }) }) }}
+
+			next(this.bible[book][chapter], book, chapter) }) }) }}
 		

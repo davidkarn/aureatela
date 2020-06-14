@@ -40,6 +40,35 @@ class Main extends Component {
 					    translation:  'douay',
 					    reference:     match.params.reference,
 					    ...props})}}),
+	       __(Route,
+		  {path: ["/lectionary/:year/:month/:day/:reference",
+			  "/lectionary/:year/:month/:day",
+			  "/lectionary/today"],
+			  
+		   exact:  true,
+		   render: props => {
+		       var match  = false
+		       props.match.path.map((path) => {
+			   match = match || matchPath(props.location.pathname,
+						      {path, exact: true, strict: false}) })
+		       var year, month, day
+		       
+		       if (props.location.pathname == '/lectionary/todaay') {
+			   var date   = new Date()
+			   day        = date.getDate()
+			   month      = date.getMonth() + 1
+			   year       = date.getYear() - 100 }
+		       else {
+			   year       = int(match.params.year)
+		           month      = int(match.params.month)
+		           day        = int(match.params.day) }
+
+		       return __(MainPage, {viewing:      'lectionary',
+					    lectionary_params: {
+						year, month, day},
+					    translation:  'douay',
+					    reference:     match.params.reference,
+					    ...props})}}),
 	       
 	       !window.location.hash && 
 	       __(Redirect, {from: "/", to: "/bible"}))) }}
@@ -89,7 +118,13 @@ class MainPage extends Component {
 	    last  = r }}
 
 	
-    render({bible_params, reference, translation}) {
+    render({bible_params, viewing, lectionary_params, reference, translation}) {
+	var actions = {
+	    open_reference:             this.open_reference.bind(this),
+	    close_reference:            this.close_reference.bind(this),
+	    go_to_next_reference:       this.go_to_next_reference.bind(this),
+	    go_to_previous_reference:   this.go_to_previous_reference.bind(this)}
+	
 	return __(
 	    'div', {},
 	    __('div', {id: 'main-reader'},
@@ -103,6 +138,17 @@ class MainPage extends Component {
 				   open_nav: () => {
 				       this.setState({nav_open: !this.state.nav_open}) }}}),
 
+	       viewing == 'lectionary' && 
+	       __(Lectionary, {
+		   day:         lectionary_params.day,
+		   year:        lectionary_params.year,
+		   month:       lectionary_params.month,
+		   bible_data:  this.bible_data,
+		   reference:   reference,
+		   translation: translation,
+		   actions}),
+	       
+	       viewing == 'bible' &&
 	       __(BibleChapter, {
 		   book:        bible_params.book,
 		   chapter:     bible_params.chapter,
@@ -110,11 +156,7 @@ class MainPage extends Component {
 		   bible_data:  this.bible_data,
 		   reference:   reference,
 		   translation: translation,
-		   actions: {
-		       open_reference:             this.open_reference.bind(this),
-		       close_reference:            this.close_reference.bind(this),
-		       go_to_next_reference:       this.go_to_next_reference.bind(this),
-		       go_to_previous_reference:   this.go_to_previous_reference.bind(this)}}))) }}
+		   actions}))) }}
 
 
 class BibleChapter extends Component {
@@ -159,6 +201,75 @@ class BibleChapter extends Component {
 	    __(Verses, {verses, books: this.state.books,
 			book, chapter, reference, actions})) }}
 
+
+class Lectionary extends Component {
+    constructor(props) {
+	super(props)
+	this.state        = {books:  {}} }
+
+    componentWillMount() {
+	this.bible_data = this.props.bible_data
+	this.load_data(this.props) }
+
+    componentWillReceiveProps(props) {
+	if (props.day          != this.props.day
+	    || props.month     != this.props.month
+	    || props.year      != this.props.year)
+	    this.load_data(props) }
+
+    load_data(props) {
+	this.bible_data.get_lectionary(
+	    props.year,
+	    props.month,
+	    props.day,
+	    props.translation,
+	    (readings) => {
+		this.setState({readings}) },
+	    (book, book_name, book_chapter) => {
+		this.setState({books: Object.assign(
+		    this.state.books,
+		    {[book_name]:
+		     {[book_chapter]: book}}) }) }) }
+
+    get_verses(book, chapter, verses) {
+	var response    = {}
+
+	verses.map((verse) => {
+	    response[verse - 1] = deep_get(this.state.books,
+					   [book,
+					    chapter,
+					    'translations',
+					    this.props.translation,
+					    'verses',
+					    (verse - 1)],
+					   '') })
+	return response }
+
+    render({day, month, year, reference, translation, actions}) {
+	var readings    = this.state.readings || {title: '', readings: []}
+	if (reference) reference = reference.split(':')
+
+	return __(
+	    'div', {className: 'bible-lectionary'},
+	    readings.readings.map((reading) => {
+		var chapters = {}
+		reading.verses.map((verse) => {
+		    if (!chapters[verse.chapter])
+			chapters[verse.chapter] = []
+		    chapters[verse.chapter].push(verse.verse) })
+
+		return __(
+		    'div', {},
+		    Object.keys(chapters).map((chapter) => __(
+			'span', {},
+			__('h1', {}, reading.label + " - " + reading.book, " ", chapter),
+
+			__(Verses, {verses:   this.get_verses(reading.book, chapter, chapters[chapter]),
+				    books:    this.state.books,
+				    book:     reading.book,
+				    chapter,
+				    reference,
+				    actions})))) })) }}
 
 
 function Navigation({actions, nav_open, toc}) {
@@ -208,24 +319,28 @@ function Verses({verses, books, book, chapter, reference, actions}) {
 	.sort(sort_references)
     return __(
 	'div', {className: 'verses'},
-	verses.map((verse, i) => __(
-	    'div', {className: 'verse'},
-	    __('div', {className: 'verse-number'},
-	       i + 1),
-	    __('div', {className: 'main-part'},
-	       verse),
-	    __('div', {className: 'annotations-part'},
-	       all_references
-	       .filter((r) => r.verse == i+ 1)
-	       .map((ref) => [
-		   reference
-		       && reference[0] == ref.source_code
-		       && reference[1] == i + 1
-		       && __(Reference, {reference: ref, actions, all_references}), 
+	Object.keys(verses)
+	    .map((v) => Number.parseInt(v))
+	    .sort((a, b) => a > b ? 1 : -1).map((i) => {
+	    var verse = verses[i]
+	    return __(
+		'div', {className: 'verse'},
+		__('div', {className: 'verse-number'},
+		   i + 1),
+		__('div', {className: 'main-part'},
+		   verse),
+		__('div', {className: 'annotations-part'},
+		   all_references
+		   .filter((r) => r.verse == i+ 1)
+		   .map((ref) => [
+		       reference
+			   && reference[0] == ref.source_code
+			   && reference[1] == i + 1
+			   && __(Reference, {reference: ref, actions, all_references}), 
 	       
-		   __('div', {className: 'annotation-link',
-			      onClick: () => actions.open_reference(ref, i + 1)},
-		      ref.author || ref.folder)]))))) }
+		       __('div', {className: 'annotation-link',
+				  onClick: () => actions.open_reference(ref, i + 1)},
+			  ref.author || ref.folder)]))) })) }
 
 function Reference({reference, all_references, actions}) {
     return __(
