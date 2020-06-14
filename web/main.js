@@ -99,27 +99,28 @@ class MainPage extends Component {
     get_references(book, chapter, verse) {
 	return get_references(book, chapter, verse, this.state.books) }
     
-    go_to_next_reference(ref, refs) {
+    go_to_next_reference(ref, refs, open_reference) {
 	var found     = false
 	
 	for (var i in refs) {
 	    var r = refs[i]
 	    console.log({r, ref}, r == ref)
-	    if (found)      return this.open_reference(r)
+	    if (found)      return (open_reference || this.open_reference)(r)
 	    if (r == ref)   found = true }}
 
-    go_to_previous_reference(ref, refs) {
+    go_to_previous_reference(ref, refs, open_reference) {
 	var last      = false
 	
 	for (var i in refs) {
 	    var r = refs[i]
 	    if (last && r == ref)
-		return this.open_reference(last)
+		return (open_reference || this.open_reference)(last)
 	    last  = r }}
 
 	
     render({bible_params, viewing, lectionary_params, reference, translation}) {
 	var actions = {
+	    navigate:                  (x) => this.props.history.push(x),
 	    open_reference:             this.open_reference.bind(this),
 	    close_reference:            this.close_reference.bind(this),
 	    go_to_next_reference:       this.go_to_next_reference.bind(this),
@@ -140,12 +141,12 @@ class MainPage extends Component {
 						      lect_nav_open:   false}) }}}),
 
 	       __(LectionaryNavigation, {
-		   nav_open: this.state.lect_nav_open,
-		   date:     this.props.lectionary_params
-		       ? new Date("20" + this.props.lectionary_params.year + "-"
-				  + this.props.lectionary_params.month + "-"
-				  + this.props.lectionary_params.day)
-		       : new Date(),
+		   nav_open:           this.state.lect_nav_open,
+		   date:               (this.props.lectionary_params
+					? new Date("20" + this.props.lectionary_params.year + "-"
+						   + this.props.lectionary_params.month + "-"
+						   + this.props.lectionary_params.day)
+					: new Date()),
 		   actions: {
 		       open_day: (year, month, day) => {
 			   this.setState({lect_nav_open: false})
@@ -265,9 +266,36 @@ class Lectionary extends Component {
 					   '') })
 	return response }
 
+    open_reference(ref, verse) {
+	if (!verse) verse = ref.verse
+	this.props.actions.navigate(
+	    '/lectionary/'
+		+ this.props.year + "/" 
+		+ this.props.month + "/" 
+		+ this.props.day + "/" 
+		+ ref.source_code + ":" + verse) }
+
+    close_reference(ref, verse) {
+	this.props.actions.navigate(
+	    '/lectionary/'
+		+ this.props.year + "/" 
+		+ this.props.month + "/" 
+		+ this.props.day) }
+
     render({day, month, year, reference, translation, actions}) {
 	var readings    = this.state.readings || {title: '', readings: []}
 	if (reference) reference = reference.split(':')
+	actions = Object.assign(
+	    {},
+	    actions,
+	    {open_reference:             this.open_reference.bind(this),
+	     close_reference:            this.close_reference.bind(this),
+	     go_to_next_reference:       (ref, refs) => {
+		 this.props.actions.go_to_next_reference(ref, refs,
+							 this.open_reference.bind(this)) },
+	     go_to_previous_reference:   (ref, refs) => {
+		 this.props.actions.go_to_previous_reference(ref, refs,
+							     this.open_reference.bind(this)) }})
 
 	return __(
 	    'div', {className: 'bible-lectionary'},
@@ -307,7 +335,9 @@ function LectionaryNavigation({actions, date, nav_open}) {
 	    __('br'),
 	    __('input', {className: 'form-control',
 			 type:      'date',
-			 value:      date,
+			 value:      (1900 + date.getYear() + "-"
+				      + (date.getMonth() + 1 < 10 ? '0' : '')
+				      + (date.getMonth() + 1) + "-" + date.getDate()),
 			 onInput:   (e) => {
 			     actions.open_day(e.target.value.slice(2, 4),
 					      e.target.value.slice(5, 7),
