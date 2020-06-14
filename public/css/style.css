@@ -115,16 +115,22 @@ h1 {
     left: 1em;
     font-size: 1.6em; }
 
-#open-button {
+#open-lectionary-navigation {
+    position: absolute;
+    top: 2.85em;
+    left: 1em;
+    font-size: 1.6em; }
+
+#open-button, #open-lectionary-navigation {
     cursor: pointer;
     color: #888; }
 
-#open-button:hover {
+#open-button:hover, #open-lectionary-navigation:hover {
     color: #333; }
 
 
 
-#navigation {
+#navigation, #lectionary-navigation {
     position: absolute;
     top: 4.5em;
     left: 1em;
@@ -148,5 +154,6 @@ h1 {
     margin-right: 0.5em;
     display: inline-block; }
     
-
+#lectionary-navigation {
+}
 

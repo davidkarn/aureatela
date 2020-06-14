@@ -136,7 +136,27 @@ class MainPage extends Component {
 				       this.props.history.push(
 					   "/bible/" + book + "/" + verse) },
 				   open_nav: () => {
-				       this.setState({nav_open: !this.state.nav_open}) }}}),
+				       this.setState({nav_open:       !this.state.nav_open,
+						      lect_nav_open:   false}) }}}),
+
+	       __(LectionaryNavigation, {
+		   nav_open: this.state.lect_nav_open,
+		   date:     this.props.lectionary_params
+		       ? new Date("20" + this.props.lectionary_params.year + "-"
+				  + this.props.lectionary_params.month + "-"
+				  + this.props.lectionary_params.day)
+		       : new Date(),
+		   actions: {
+		       open_day: (year, month, day) => {
+			   this.setState({lect_nav_open: false})
+			   this.props.history.push(
+			       "/lectionary/" + year + "/" + month + "/" + day) },
+		       open_today: () => {
+			   this.setState({lect_nav_open: false})
+			   this.props.history.push("/lectionary/today") },
+		       open_nav: () => {
+			   this.setState({lect_nav_open: !this.state.lect_nav_open,
+					  nav_open:       false}) }}}),
 
 	       viewing == 'lectionary' && 
 	       __(Lectionary, {
@@ -271,6 +291,27 @@ class Lectionary extends Component {
 				    reference,
 				    actions})))) })) }}
 
+function LectionaryNavigation({actions, date, nav_open}) {
+    return __(
+	'div', {},
+	__('div', {id: 'open-lectionary-navigation'},
+	   __('i', {className: 'fa fa-calendar',
+		    onClick:   () => actions.open_nav(), 
+		    id: 'open-lectionary-button'})),
+		  
+	nav_open && __(
+	    'div', {id: 'lectionary-navigation'},
+	    __('button', {className: 'btn',
+			  onClick:   () => actions.open_today()},
+	       "todays readings"),
+	    __('br'),
+	    __('input', {className: 'form-control',
+			 type:      'date',
+			 value:      date,
+			 onInput:   (e) => {
+			     actions.open_day(e.target.value.slice(2, 4),
+					      e.target.value.slice(5, 7),
+					      e.target.value.slice(8, 10))}}))) }
 
 function Navigation({actions, nav_open, toc}) {
     return __(
