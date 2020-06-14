@@ -92,7 +92,7 @@ class MainPage extends Component {
 				+ ref.chapter + "/" + ref.verse + "/"
 				+ ref.source_code + ":" + verse) }
 
-    close_reference() {
+    close_reference(ref) {
 	this.props.history.push('/bible/' + ref.book + "/"
 				+ ref.chapter + "/" + ref.verse) }	
 
@@ -105,7 +105,7 @@ class MainPage extends Component {
 	for (var i in refs) {
 	    var r = refs[i]
 	    console.log({r, ref}, r == ref)
-	    if (found)      return (open_reference || this.open_reference)(r)
+	    if (found)      return (open_reference || this.open_reference.bind(this))(r)
 	    if (r == ref)   found = true }}
 
     go_to_previous_reference(ref, refs, open_reference) {
@@ -114,7 +114,7 @@ class MainPage extends Component {
 	for (var i in refs) {
 	    var r = refs[i]
 	    if (last && r == ref)
-		return (open_reference || this.open_reference)(last)
+		return (open_reference || this.open_reference.bind(this))(last)
 	    last  = r }}
 
 	
@@ -421,7 +421,7 @@ function Reference({reference, all_references, actions}) {
 	__('div', {className: 'prev-btn fa fa-chevron-left',
 		   onClick:   () => actions.go_to_previous_reference(reference, all_references)}),
 	__('div', {className: 'close-btn',
-		   onClick:   () => actions.close_reference()},
+		   onClick:   () => actions.close_reference(reference)},
 	   "x"),
 	__('p', {className: 'reference-author-name'}, reference.author),
 	__('p', {}, reference.text.replace(/\[fn-.*?-nf\]/g, '*')),
