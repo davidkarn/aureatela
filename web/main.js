@@ -388,12 +388,13 @@ function sort_references(a, b) {
 function Verses({verses, books, book, chapter, reference, actions}) {
     var all_references = get_references(book, chapter, false, books)
 	.sort(sort_references)
+
     return __(
 	'div', {className: 'verses'},
 	Object.keys(verses)
 	    .map((v) => Number.parseInt(v))
 	    .sort((a, b) => a > b ? 1 : -1).map((i) => {
-	    var verse = verses[i]
+		var verse = verses[i]
 	    return __(
 		'div', {className: 'verse'},
 		__('div', {className: 'verse-number'},

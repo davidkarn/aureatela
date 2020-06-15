@@ -58,9 +58,16 @@ export default class BibleData {
 	axios.get('data/bible/' + book + '/' + chapter + '/' + translation + '.json')
 	    .catch(do_nothing)
 	    .then((response) => {
+		var data = response.data
+		if (chapter == 147) {
+		    var newdata = {verses: {}}
+		    for (var i in data.verses) newdata.verses[Number.parseInt(i) + 11] = data.verses[i]
+		    data = newdata
+		    console.log(147, newdata, data) }
+		
 		deep_set(this.bible,
 			 [book, chapter, 'translations', translation],
-			 response.data)
+			 data)
 		next(this.bible[book][chapter], book, chapter)
 		
 		axios.get('data/bible/' + book + '/' + chapter + '/references.json')
