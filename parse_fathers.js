@@ -86,7 +86,7 @@ async function parse_from_ttorg(filename) {
     if (data) {
 	var $             = cheerio.load(data)
 	var collection    = $('title').text().trim()
-i	var as            = Object.values($('a')).filter((x) => x.name == 'a' && x.type == 'tag')
+        var as            = Object.values($('a')).filter((x) => x.name == 'a' && x.type == 'tag')
 	var ps            = Object.values($('p')).filter((x) => x.name == 'p' && x.type == 'tag')
 
 	var tracking      = true

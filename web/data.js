@@ -44,6 +44,62 @@ export default class BibleData {
 		this.readings = response.data
 		do_get_lectionary() }) }
 
+    get_source_toc({folder}, next) {
+	var existing    = deep_get(this.sources, [folder, 'toc'])
+
+	if (existing)
+	    next(this.sources[folder]['toc'])
+	
+	axios.get('data/sources/' + folder + '/toc.json')
+	    .catch(do_nothing)
+            .then(response => {
+		var data = response.data
+                deep_set(this.sources,
+                         [folder, 'toc'],
+                         data)
+                next(this.sources[folder]['toc']) }) }
+    
+    get_source({folder, document_name}, next) {
+	var existing    = deep_get(this.sources, [folder, document_name])
+
+	if (existing)
+	    next(this.sources[folder][document_name])
+	
+	axios.get('data/sources/' + folder + '/' + document_name + '/source.json')
+	    .catch(do_nothing)
+            .then(response => {
+		const data = response.data
+                deep_set(this.sources,
+                         [folder, document_name],
+                         data)
+
+                const bible_chapters = {}
+                response.data.chapters.map(chapter => {
+                    chapter.paragraphs.map(para => {
+                        para.references.map(ref => {
+                            ref.bible_refs.map(bible_ref => {
+                                const key = bible_ref.book + ":" + bible_ref.chapter
+                                bible_chapters[key] = [bible_ref.book, bible_ref.chapter] }) }) }) })
+                Object.values(bible_chapters).map((bible_chapter) => {
+                    const book     = bible_chapter[0]
+                    const chapter  = bible_chapter[1]
+                    
+                    this.get_references(book, chapter, () => {
+                        next(this.sources[folder][document_name], this.bible) }) })
+                
+                next(this.sources[folder][document_name], this.bible) }) }
+
+    get_references(book, chapter, next) {
+        axios.get('data/bible/' + book + '/' + chapter + '/references.json')
+	    .catch(do_nothing)
+	    .then((response, err) => {
+		if (!response) response = {data: []}
+                
+		deep_set(this.bible,
+			 [book, chapter, 'references'],
+			 response.data)
+                
+		next() }) }
     
     get_chapter(options, next) {
 	var {book, chapter, verse, reference, translation} = options
@@ -68,16 +124,8 @@ export default class BibleData {
 		deep_set(this.bible,
 			 [book, chapter, 'translations', translation],
 			 data)
-		next(this.bible[book][chapter], book, chapter)
+		next(this.bible[book][chapter], book, chapter) });
 		
-		axios.get('data/bible/' + book + '/' + chapter + '/references.json')
-		    .catch(do_nothing)
-		    .then((response, err) => {
-			if (!response) response = {data: []}
-
-			deep_set(this.bible,
-				 [book, chapter, 'references'],
-				 response.data)
-
-			next(this.bible[book][chapter], book, chapter) }) }) }}
+	this.get_references(book, chapter, () => {                
+	    next(this.bible[book][chapter], book, chapter) }) }}
 		

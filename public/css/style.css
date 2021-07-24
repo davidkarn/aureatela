@@ -157,3 +157,7 @@ h1 {
 #lectionary-navigation {
 }
 
+.reference-author-name, .reference-title {
+    font-weight: bold;
+    cursor: pointer;
+}
