@@ -25,11 +25,11 @@ const pull_scans = () => {
         exec("wget '" + url + "'")); };
 
 const convert_scans = () => {
-    [["CalibreLibrary.1", "tomus1_"],
+    [//["CalibreLibrary.1", "tomus1_"],
      ["CalibreLibrary.2", "tomus3_"],
      ["CalibreLibrary", "tomus2_"]]
         .map(
-            file => exec("pdftoppm -r 300 -png " + file[0] + " " + file[1])); };
+            file => execSync("pdftoppm -r 150 -png " + file[0] + " " + file[1])); };
 
 const prep_files = (prefix, bg_color) => {
     fs
@@ -53,13 +53,13 @@ const prep_file = (bg_color, filename) => {
 
             // the margin on these scans is sometimes to slim, it needs padding
             // in order for page-dewarp not to clip it
-            exec("convert " + filename + " -resize 110%x110% "
+            exec("convert " + filename + " -resize 120%x110% "
                  + " -background '" + bg_color + "' "
-                 + " -gravity center -extent 110%x110% "
+                 + " -gravity center -extent 120%x110% "
                  + margin_fn);
             exec("~/.local/bin/page-dewarp " + margin_fn);
             exec("rm " + margin_fn + " " + filename); }); };
 
 //pull_scans();
 //convert_scans();
-prep_files('tomus3_-', "#CD974F");
+prep_files('tomus2_-', "#CD974F");
