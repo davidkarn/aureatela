@@ -62,8 +62,9 @@ resp = {"text": "",
         "footnotes": []}
 
 for block in footnotes:
-    cv2.imwrite(fn + '.writing.png', image[block[1]:(block[1]+block[3]), block[0]:(block[2]+block[0])])
-    text = subprocess.getoutput("tesseract --dpi 150 -l lat " + fn + ".writing.png -")
+    cv2.imwrite(fn + '.writing.png', image[block[1]:(block[1] + block[3]),
+                                           block[0]:(block[2] + block[0])])
+    text = subprocess.getoutput("tesseract -c preserve_interword_spaces=1 --dpi 150 -l lat " + fn + ".writing.png -")
     resp['footnotes'].append(text)
 
 cv2.imwrite(fn + '.writing.png', image[textblock[1]:textblock[7], textblock[0]:textblock[6]])

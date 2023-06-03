@@ -1,5 +1,9 @@
-const fs              = require('fs');
+const fs                        = require('fs');
+const util                      = require('util');
 const { exec, execSync, spawn } = require('node:child_process');
+
+function last(ar) {
+    return ar[ar.length - 1]; }
 
 function curry(that, ...args) {
     return function(...calledWithArgs) {
@@ -60,6 +64,108 @@ const prep_file = (bg_color, filename) => {
             exec("~/.local/bin/page-dewarp " + margin_fn);
             exec("rm " + margin_fn + " " + filename); }); };
 
+const scan_file = (fn) => {
+    const text            = JSON.parse(execSync("python3 scan_text_blocks.py " + fn));
+    console.log(text);
+    const footnotes_block = text.footnotes[1];
+
+    const footnotes  = parse_footnotes(footnotes_block);
+    console.log(footnotes)
+    const chapters = parse_chapters(text.text, footnotes);
+    
+}
+
+const process_notes = (paragraph, notes) => {
+    let done          = false;
+    let last_index    = 0;
+    let found_notes   = [];
+
+    if (typeof paragraph !== "string") {
+        found_notes = paragraph.notes
+        paragraph   = paragraph.paragraph; }
+    
+    while (!done && notes.length > 0) {
+        let offset  = 1;
+        let testing = notes[0]
+        let matches = [
+            ...paragraph.matchAll(
+                new RegExp(" " + (testing[0] == 8 ? "(8|\\$)" : testing[0]) + "\\W", "g"))]
+            .filter(match => match.index >= last_index);
+
+        if (matches.length === 0) {
+            offset = 0;
+            matches = [
+                ...paragraph.matchAll(
+                    new RegExp("[a-z]" + (testing[0] == 8 ? "(8|\\$)" : testing[0]) + "\\W", "g"))]
+                .filter(match => match.index >= last_index); }
+        
+        console.log(" " + (testing[0] == 8 ? "(8|\\$)" : testing[0]) + "\\W", matches);
+        
+        if (matches.length > 0) {
+            let match  = matches[0];
+            last_index = match.index;
+            
+            paragraph  = paragraph.slice(0, match.index + (1 - offset))
+                + "<<<fn:" + testing[0] + ">>>"
+                + paragraph.slice(match.index + offset + 1);
+            
+            found_notes.push(testing);
+            notes.shift(); }
+        
+        else {
+            done = true; }}
+
+    return [found_notes, paragraph]; }
+
+const parse_chapters = (text, footnotes) => {
+    const notes      = Object.keys(footnotes).map(fnInd => [fnInd, footnotes[fnInd]]);
+    const chapters   = [{title: 'continuation', paragraphs: []}];
+    const paragraphs = text
+          .split(/\n\s*\n/g)
+          .map(para => para.replace(/(\w)-\n(\w)/g, '$1$2').replace(/\n/g, " "))
+          .filter(para => !para.match(/^\s*$/));
+
+    let last_matched = 0;
+    while (notes.length > 0) {
+        paragraphs.forEach((paragraph, ind) => {
+            if (ind >= last_matched) {
+                let [paragraph_notes, text] = process_notes(paragraph, notes);
+                paragraphs[ind] = {paragraph: text, notes: paragraph_notes};
+                
+                if (notes.length > 0) {
+                    last_matched = ind; }}});
+        
+        if (notes.length > 0) {
+            notes.shift(); }}
+        
+    paragraphs.forEach((paragraph, ind) => {
+        if (paragraph.paragraph.match(/^Cap\. /i)) {
+            chapters.push({title: paragraph.paragraph, paragraphs: []}); }
+        
+        else {
+            last(chapters).paragraphs.push(paragraph); }}); 
+        
+    console.log(util.inspect(chapters, false, null, true));
+}
+
+const parse_footnotes = (text) => {
+    return text.replace(/\u2013|\u2014/g, "-")
+        .replace(/^(\s|-)+/, "")
+        .split(/ {4,8}/)
+        .map((footnote, ind) => [
+            ind,
+            footnote
+                .replace(/^[0-9?*&()]{1,2} +/, '')
+                .replace(/\s+/g, ' ')
+                .replace(/.\s*$/, '')])
+        .reduce(
+            (acc, cur) => {
+                return {...acc,
+                        [cur[0] + 1]: cur[1]};
+            }, {}); }
+
 //pull_scans();
 //convert_scans();
-prep_files('tomus2_-', "#CD974F");
+//prep_files('tomus2_-', "#CD974F");
+
+scan_file("tomus2_190_1_margin_thresh.png");
