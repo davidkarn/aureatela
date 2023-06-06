@@ -64,16 +64,30 @@ const prep_file = (bg_color, filename) => {
             exec("~/.local/bin/page-dewarp " + margin_fn);
             exec("rm " + margin_fn + " " + filename); }); };
 
-const scan_file = (fn) => {
-    const text            = JSON.parse(execSync("python3 scan_text_blocks.py " + fn));
-    console.log(text);
-    const footnotes_block = text.footnotes[1];
+const scan_files = () => {
+    const suffix = "_margin_thresh.png"
+    fs
+        .readdirSync('./')
+        .filter(fn => fn.slice(0 - suffix.length) == suffix)
+        .map(filename => {
+            try {
+                const scanned_data = scan_file(filename);
+                fs.writeFileSync(
+                    filename.slice(0, filename.length - suffix.length) + "-ocr.json",
+                    JSON.stringify(scanned_data)); }
 
-    const footnotes  = parse_footnotes(footnotes_block);
-    console.log(footnotes)
-    const chapters = parse_chapters(text.text, footnotes);
-    
-}
+            catch (e) {
+                // some files will fail because they are TOC or headings and dont match
+                // the format of the text pages that scan_file is designed for
+                console.error('error scanning file: ' + filename);
+                console.error(e); }}); };
+                
+const scan_file = (fn) => {
+    const text             = JSON.parse(execSync("python3 scan_text_blocks.py " + fn));
+    const footnotes_block  = text.footnotes[1];
+    const footnotes        = parse_footnotes(footnotes_block);
+    const chapters         = parse_chapters(text.text, footnotes);
+    return chapters; }
 
 const process_notes = (paragraph, notes) => {
     let done          = false;
@@ -146,7 +160,7 @@ const parse_chapters = (text, footnotes) => {
             last(chapters).paragraphs.push(paragraph); }}); 
         
     console.log(util.inspect(chapters, false, null, true));
-}
+    return chapters; }
 
 const parse_footnotes = (text) => {
     return text.replace(/\u2013|\u2014/g, "-")
@@ -166,6 +180,9 @@ const parse_footnotes = (text) => {
 
 //pull_scans();
 //convert_scans();
+//prep_files('tomus1_-', "#ffffff");
 //prep_files('tomus2_-', "#CD974F");
+//prep_files('tomus3_-', "#CD974F");
 
-scan_file("tomus2_190_1_margin_thresh.png");
+//scan_files();
+scan_file("tomus1_550_1_margin_thresh.png");
