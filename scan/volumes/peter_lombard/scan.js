@@ -184,5 +184,5 @@ const parse_footnotes = (text) => {
 //prep_files('tomus2_-', "#CD974F");
 //prep_files('tomus3_-', "#CD974F");
 
-//scan_files();
-scan_file("tomus1_550_1_margin_thresh.png");
+scan_files();
+//scan_file("tomus1_550_1_margin_thresh.png");
