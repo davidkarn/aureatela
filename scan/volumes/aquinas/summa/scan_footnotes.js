@@ -1,9 +1,14 @@
-const table = [
-    {author: 'dionysisu',
+const fs          = require('fs');
+const util        = require('util');
+
+const roman_numerals = '(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})';
+
+const footnotes_table = [
+    {author: 'dionysius',
      title: 'ecclesial_hierarchy',
      pattern: 'Eccl. Hier.',
      latinpattern: 'Eccles. Hier.'},
-    {author: 'dionysisu',
+    {author: 'dionysius',
      title: 'divine_names',
      pattern: 'Div. Nom.',
      latinpattern: 'divinis nominibus'},
@@ -109,7 +114,11 @@ const table = [
      latinpattern: 'in Matth'},
     {author: 'hilary_of_pontiers',
      title: 'commentary_on_matthew', 
-     pattern: 'Comment. in Matth.',
+     pattern: 'in Matth.',
+     latinpattern: 'in Matth'},
+    {author: 'chrysostom',
+     title: 'commentary_on_matthew', 
+     pattern: 'in Matth.',
      latinpattern: 'in Matth'},
     {author: 'ambrose',
      title: 'prosologium', 
@@ -172,3 +181,89 @@ const table = [
      pattern: 'Polit',
      latinpattern: 'polit'},
 ];
+
+mark_dupes(footnotes_table);
+
+function scan_for_footnotes(path) {
+    const data       = JSON.parse(fs.readFileSync(path));
+
+    apply_footnotes(
+        path,
+        {...data,
+         parts: data.parts.map(
+             part => {
+                 return {
+                     ...part,
+                     paragraphs: part.paragraphs.map(
+                         para => {
+                             return {
+                                 ...para,
+                                 refs: find_footnotes(para.eng,
+                                                      footnotes_table)}; })}; })}); }
+
+function apply_footnotes(path, data) {
+    console.log('writing', path);
+    fs.writeFileSync(path, JSON.stringify(data, null, "  ")); }
+
+function mark_dupes(footnotes) {
+    const table = footnotes.reduce(
+        (acc, cur) => {
+            return {
+                ...acc,
+                [cur.pattern]: (acc[cur.pattern] || []).concat(cur.author)}; },
+        {});
+    
+    for (let i in footnotes) {
+        if (table[footnotes[i].pattern].length > 1) {
+            footnotes[i].is_dupe = true; }}}
+        
+function find_footnotes(text, patterns) {
+    text = text.toLowerCase();
+    
+    const refs = patterns.map(pattern => {
+        let matches = [...text.matchAll(pattern
+                                        .pattern
+                                        .toLowerCase())];
+        if (matches.length === 0) {
+            matches = [...text.matchAll(pattern
+                                        .pattern
+                                        .toLowerCase()
+                                        .replace(/\./g, ''))]; }
+
+        return matches.map(match => {
+            const index        = match.index;
+            let context_before = text.slice(Math.max(0, index - 28), index);
+            let context_after  = text.slice(index, index + 28 + match[0].length);
+            
+            if (pattern.is_dupe) {
+                if (!context_before.match(pattern.author.replace('_', ' '))) {
+                    return null; }}
+
+            const after_regex  = new RegExp(
+                '((' + roman_numerals + "|[0-9]+)[\\.,]* )*([a-z. ])*\\**[\\])]", 'gi');
+            const before_regex = new RegExp(
+                "[\\[(]\\**[a-z. ]*((" + roman_numerals + "|[0-9]+)[\.,]* *)", 'gi');
+
+            let chapt_match = [...context_after.matchAll(after_regex)];
+            if (chapt_match.length === 0)
+                chapt_match = [...context_before.matchAll(before_regex)];
+
+            return chapt_match.length === 0
+                ? null
+                : {index:     match.index,
+                   volume:    pattern.title,
+                   author:    pattern.author,
+                   reference: chapt_match[0][0]}; }); });
+
+    return refs.flat().filter(x => x); }
+
+const path = "./SS_SS187.html.json";
+
+function scan_all() {
+    fs
+        .readdirSync('./')
+        .map(filename => {
+            if (filename.match('.html.json')) {
+                scan_for_footnotes(filename); }}); }
+
+scan_all(); 
