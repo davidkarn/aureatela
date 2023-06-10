@@ -1,10 +1,11 @@
-var cheerio     = require('cheerio')
-var fsprom      = require('fs').promises
-var mkdirp      = require('mkdirp')
-var util        = require('util')
-var utils       = require('./utils')
-const fs        = require('fs')
+var cheerio         = require('cheerio')
+var fsprom          = require('fs').promises
+var mkdirp          = require('mkdirp')
+var util            = require('util')
+var utils           = require('./utils')
+const fs            = require('fs')
 const { promisify } = require('util')
+const { execSync }  = require('node:child_process')
 
 var fsp = {readdir:   fsprom.readdir,
 	   readFile:  fs.readFileSync,
@@ -75,10 +76,12 @@ async function async_each(array, callback) {
 
 async function parse_from_ttorg(filename) {
     filename      = filename || 'sources/www.tertullian.org/fathers2/ANF-07/anf07-36.htm'
-    var folder    = filename.match(/fathers2\/(.*?)\//)[1]
+    var folder    = filename.match(/fathers2\/(.*?)\//)[1].slice(0,128)
     var end_part  = filename.match(/fathers2\/(.*?)\.htm/)[1]
     var data      = await fsp.readFile(filename, 'utf8')
 
+    execSync('mkdir -p public/data/sources/' + folder);
+    execSync('mkdir -p public/data/sources/' + folder);
     var toc       = await fsp.readFile('public/data/sources/' + folder + "/toc.json", 'utf8')
     toc           = JSON.parse(toc)
 
@@ -99,7 +102,7 @@ async function parse_from_ttorg(filename) {
 		title = el.text().trim()
 		break }
 
-	var code          = to_code(end_part, title)
+	var code          = to_code(end_part, title).slice(0, 128)
 	var author        = toc.contents[code] && toc.contents[code].author
 	var article       = {title, code, author, filename, chapters: []}
 	var chapter       = {name:       '',
@@ -155,31 +158,44 @@ async function parse_from_ttorg(filename) {
 	    var code = [folder, fn].join('-')
 
 	    if (!fns[code]) {
-	    	var data = await fsp.readFile('sources/www.tertullian.org/fathers2/'
-					     + folder + '/footnote/fn' + fn + '.htm', 'utf8')
+                var data
+                
+                try {
+	    	    data = await fsp.readFile(
+                        'sources/www.tertullian.org/fathers2/'
+			    + folder + '/footnote/fn' + fn + '.htm', 'utf8') }
+
+                catch (e) {
+                    data = null }
+
 		fns[code] = data }
 
 	    return fns[code] }
 	
 	var get_reference = async (folder, fn, code) => {
-	    var fn_file    = await get_fn_file(folder, fn)
-	    var fn$        = cheerio.load(fn_file)
 	    var bible_refs = []
-	    
-	    var node       = fn$('a[name="' + code + '"]').parent()
-	    $('sup', node).text('')
-	    
-	    var text       = node.text().trim()
-	    if (text.match(/\[.*?\]/))
-		text = text.match(/\[(.*?)\]/)[1]
-	    texts          = text.split(';')
-	    	    
-            for (var i in texts) {
-		var verses   = parse_refs(text)
+	    var fn_file    = await get_fn_file(folder, fn)
 
-		verses.map((v) => bible_refs.push(v)) }
+            if (!fn_file)
+                return {fn, code, folder, text: "", bible_refs}
+
+            else {
+            	var fn$        = cheerio.load(fn_file)
+	    
+	        var node       = fn$('a[name="' + code + '"]').parent()
+	        $('sup', node).text('')
+	    
+	        var text       = node.text().trim()
+	        if (text.match(/\[.*?\]/))
+		    text = text.match(/\[(.*?)\]/)[1]
+	        texts          = text.split(';')
+	    	    
+                for (var i in texts) {
+		    var verses   = parse_refs(text)
+                    
+		    verses.map((v) => bible_refs.push(v)) }
 		
-	    return {fn, code, folder, text, bible_refs}}
+	        return {fn, code, folder, text, bible_refs}}}
 
 	var process_paragraph = async (text, t2, index) => {
 	    var references = []

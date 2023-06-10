@@ -6,7 +6,7 @@ function parse_douay(filename) {
     filename = filename || './sources/pg1581.html'
     fs.readFile(filename, 'utf8', (err, data) => {
 	var $          = cheerio.load(data)
-	var ps         = $('p')
+	var ps         = $('p, h4')
 	var chapter    = false
 	var book       = false
 	var verse      = false
@@ -28,7 +28,9 @@ function parse_douay(filename) {
 	    var text     = $(p).text()
 	    var style    = p.attribs.style
 
-	    if (style == 'margin-top: 3em' && text.match(' Chapter ')) {
+            if (p.attribs['class'] === "sp2") return;
+
+	    if (p.tagName === 'h4' && text.match(' Chapter ')) {
 		var old_book = book
 		var old_chap = chapter
 		book         = text.match(/(.*?) Chapter/)[1]
