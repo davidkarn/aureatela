@@ -12754,7 +12754,7 @@
         "npnf1_01_npnf1_01_08_translator_s_preface",
         "P139_10642",
         "npnf1-01-08.htm"
-    ]
+    ],
         ["npnf1_01_npnf1_01_09_book_i_",
          "",
          "npnf1_01_09.htm"],
@@ -12793,7 +12793,7 @@
          "npnf1_01_20.htm"],
         ["npnf1_01_npnf1_01_21_book_xiii_",
          "",
-         "npnf1_01_21.htm"],
+         "npnf1_01_21.htm"]
     ]
   },
   {
@@ -12883,7 +12883,7 @@
          "npnf1_02_27.htm"],
         ["npnf1_02_npnf1_02_28_book_xxii",
          "",
-         "npnf1_02_28.htm"],
+         "npnf1_02_28.htm"]
     ]
   },
   {
@@ -12982,7 +12982,7 @@
          "npnf1_03_20.htm"],
         ["npnf1_03_npnf1_03_21_book_xv_",
          "",
-         "npnf1_03_21.htm"],
+         "npnf1_03_21.htm"]
     ]
   },
   {
@@ -13048,7 +13048,7 @@
          "npnf1_03_39.htm"],
         ["npnf1_03_npnf1_03_40_undefined",
          "",
-         "npnf1_03_40.htm"],
+         "npnf1_03_40.htm"]
     ]
   },
   {
@@ -13209,7 +13209,7 @@
          "npnf1_04_45.htm"],
         ["npnf1_04_npnf1_04_46_book_xxxiii_",
          "",
-         "npnf1_04_46.htm"],
+         "npnf1_04_46.htm"]
         ]
   },
   {
@@ -13308,7 +13308,7 @@
          "npnf1_05_12.htm"],
         ["npnf1_05_npnf1_05_13_book_iii_",
          "",
-         "npnf1_05_13.htm"],
+         "npnf1_05_13.htm"]
     ]
   },
   {
@@ -13601,9 +13601,9 @@
            "npnf1_06_14.htm"],
           ["npnf1_06_npnf1_06_15_book_iv_",
            "",
-           "npnf1_06_15.htm"],
+           "npnf1_06_15.htm"]
     ]
-  }
+  },
   {
     "author": "Augustine",
     "title": "Sermons on Selected Lessons of the New Testament.",
@@ -13940,7 +13940,7 @@
          "npnf1_07_11.htm"],
         ["npnf1_07_npnf1_07_12_tractate_vii_",
          "",
-         "npnf1_07_12.htm"]
+         "npnf1_07_12.htm"],
         ["npnf1_07_npnf1_07_13_tractate_viii_",
          "",
          "npnf1_07_13.htm"],
@@ -14293,7 +14293,7 @@
          "npnf1_07_128.htm"],
         ["npnf1_07_npnf1_07_129_tractate_cxxiv_",
          "",
-         "npnf1_07_129.htm"],
+         "npnf1_07_129.htm"]
         
     ]
   },
@@ -15194,7 +15194,7 @@
         "npnf1_09_npnf1_09_45_to_olympias_",
         "P1387_1154690",
         "npnf1-09-45.htm"
-    ],
+    ]
     ]
   },
   {
@@ -16259,7 +16259,7 @@
          "npnf1_13_120.htm"],
         ["npnf1_13_npnf1_13_121_homily_iii_",
          "",
-         "npnf1_13_121.htm"],
+         "npnf1_13_121.htm"]
     ]
   },
   {
@@ -16974,7 +16974,7 @@
          "npnf2_01_29.htm"],
         ["npnf2_01_npnf2_01_30_book_iv_",
          "",
-         "npnf2_01_30.htm"],
+         "npnf2_01_30.htm"]
         ]
   },
   {
@@ -17031,7 +17031,7 @@
          "npnf2_02_11.htm"],
         ["npnf2_02_npnf2_02_12_book_vii_",
          "",
-         "npnf2_02_12.htm"],
+         "npnf2_02_12.htm"]
     ]
   },
   {
@@ -17052,7 +17052,7 @@
          "npnf2_02_16.htm"],
         ["npnf2_02_npnf2_02_17_memoir_of_sozomen_",
          "",
-         "npnf2_02_17.htm"],
+         "npnf2_02_17.htm"]
     ]
   },
   {
@@ -20649,7 +20649,9 @@
          "npnf2_11_30.htm"],
         ["npnf2_11_npnf2_11_31_undefined",
          "",
-         "npnf2_11_31.htm"],
+         "npnf2_11_31.htm"]
+    ]
+  },
   {
     "author": "John Cassian",
     "title": "John Cassian",
@@ -20722,7 +20724,7 @@
          "npnf2_11_45.htm"],
         ["npnf2_11_npnf2_11_46_book_xii_",
          "",
-         "npnf2_11_46.htm"],
+         "npnf2_11_46.htm"]
         
     ]
   },
@@ -20864,65 +20866,676 @@
   },
   {
     "author": "Gregory the Great",
-    "title": "THE BOOK OF PASTORAL RULE OF SAINT GREGORY THE GREAT ROMAN PONTIFF TO JOHN, BISHOP OF THE CITY OF RAVENNA",
-    "key": "222_the_book_of_pastoral_rule_of_saint_gregory_the_great_roman_pontiff_to_john_bishop_of_the_city_of_ravenna",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_222_the_book_of_pastoral_rule_of_saint_gregory_the_great_roman_pontiff_to_john_bishop_of_the_city_of_ravenna",
-        "P4272_1092569",
-        "Npnf2-12-222.htm"
+      "title": "Letters",
+    "key": "letters_saint_gregory_the_great_",
+      "paths": [
+          ["npnf2_12_npnf2_12_03_prefatory_note",
+           "",
+           "npnf2_12_03.htm"],
+          ["npnf2_12_npnf2_12_04_introduction",
+           "",
+           "npnf2_12_04.htm"],
+          ["npnf2_12_npnf2_12_05_letters",
+           "",
+           "npnf2_12_05.htm"],
+          ["npnf2_12_npnf2_12_06_letter_i_to_the_bishop_of_aquileia_",
+           "",
+           "npnf2_12_06.htm"],
+          ["npnf2_12_npnf2_12_07_letter_ii_to_septimus_bishop_of_altinum_",
+           "",
+           "npnf2_12_07.htm"],
+          ["npnf2_12_npnf2_12_08_letter_iii_from_paschasinus_bishop_of_lilybaeum_",
+           "",
+           "npnf2_12_08.htm"],
+          ["npnf2_12_npnf2_12_09_letter_iv_to_the_bishops_appointed_in_campania_picenum_etruria_and_all_the_provinces_",
+           "",
+           "npnf2_12_09.htm"],
+          ["npnf2_12_npnf2_12_10_letter_v_to_the_metropolitan_bishops_of_illyricum_",
+           "",
+           "npnf2_12_10.htm"],
+          ["npnf2_12_npnf2_12_11_letter_vi_to_anastasius_bishop_of_thessalonica_",
+           "",
+           "npnf2_12_11.htm"],
+          ["npnf2_12_npnf2_12_12_letter_vii_to_the_bishops_throughout_italy_",
+           "",
+           "npnf2_12_12.htm"],
+          ["npnf2_12_npnf2_12_13_letter_viii_the_ordinance_of_valentinian_iii_concerning_the_manichaeans_",
+           "",
+           "npnf2_12_13.htm"],
+          ["npnf2_12_npnf2_12_14_letter_ix_to_dioscorus_bishop_of_alexandria_",
+           "",
+           "npnf2_12_14.htm"],
+          ["npnf2_12_npnf2_12_15_letter_x_to_the_bishops_of_the_province_of_vienne_in_the_matter_of_hilary_bishop_of_arles_",
+           "",
+           "npnf2_12_15.htm"],
+          ["npnf2_12_npnf2_12_16_letter_xi_an_ordinance_of_valentinianus_iii_",
+           "",
+           "npnf2_12_16.htm"],
+          ["npnf2_12_npnf2_12_17_letter_xii_",
+           "",
+           "npnf2_12_17.htm"],
+          ["npnf2_12_npnf2_12_18_letter_xiii_to_the_metropolitan_bishops_in_the_provinces_of_illyricum_",
+           "",
+           "npnf2_12_18.htm"],
+          ["npnf2_12_npnf2_12_19_letter_xiv_to_anastasius_bishop_of_thessalonica_",
+           "",
+           "npnf2_12_19.htm"],
+          ["npnf2_12_npnf2_12_20_letter_xv_to_turribius_bishop_of_asturia_upon_the_errors_of_the_priscillianists_",
+           "",
+           "npnf2_12_20.htm"],
+          ["npnf2_12_npnf2_12_21_letter_xvi_to_the_bishops_of_sicily_",
+           "",
+           "npnf2_12_21.htm"],
+          ["npnf2_12_npnf2_12_22_letter_xvii_",
+           "",
+           "npnf2_12_22.htm"],
+          ["npnf2_12_npnf2_12_23_letter_xviii_to_januarius_bishop_of_aquileia",
+           "",
+           "npnf2_12_23.htm"],
+          ["npnf2_12_npnf2_12_24_letter_xix_to_dorus_bishop_of_beneventum_",
+           "",
+           "npnf2_12_24.htm"],
+          ["npnf2_12_npnf2_12_25_letter_xx_to_eutyches_an_abbot_of_constantinople_",
+           "",
+           "npnf2_12_25.htm"],
+          ["npnf2_12_npnf2_12_26_letter_xxi_from_eutyches_to_leo_",
+           "",
+           "npnf2_12_26.htm"],
+          ["npnf2_12_npnf2_12_27_letter_xxii_the_first_from_flavian_bp_of_constantinople_to_pope_leo_",
+           "",
+           "npnf2_12_27.htm"],
+          ["npnf2_12_npnf2_12_28_letter_xxiii_to_flavian_bishop_of_constantinople_",
+           "",
+           "npnf2_12_28.htm"],
+          ["npnf2_12_npnf2_12_29_letter_xxiv_to_theodosius_augustus_ii_",
+           "",
+           "npnf2_12_29.htm"],
+          ["npnf2_12_npnf2_12_30_letter_xxv_from_peter_chrysologus_bishop_of_ravenna_to_eutyches_the_presbyter_",
+           "",
+           "npnf2_12_30.htm"],
+          ["npnf2_12_npnf2_12_31_letter_xxvi_a_second_one_from_flavian_to_leo_",
+           "",
+           "npnf2_12_31.htm"],
+          ["npnf2_12_npnf2_12_32_letter_xxvii_to_flavian_bishop_of_constantinople_",
+           "",
+           "npnf2_12_32.htm"],
+          ["npnf2_12_npnf2_12_33_letter_xxviii_to_flavian_commonly_called_the_tome_",
+           "",
+           "npnf2_12_33.htm"],
+          ["npnf2_12_npnf2_12_34_letter_xxix_to_theodosius_augustus_",
+           "",
+           "npnf2_12_34.htm"],
+          ["npnf2_12_npnf2_12_35_letter_xxx_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_35.htm"],
+          ["npnf2_12_npnf2_12_36_letter_xxxi_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_36.htm"],
+          ["npnf2_12_npnf2_12_37_letter_xxxii_to_the_archimandrites_of_constantinople_",
+           "",
+           "npnf2_12_37.htm"],
+          ["npnf2_12_npnf2_12_38_letter_xxxiii_to_the_synod_of_ephesus_",
+           "",
+           "npnf2_12_38.htm"],
+          ["npnf2_12_npnf2_12_39_letter_xxxiv_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_39.htm"],
+          ["npnf2_12_npnf2_12_40_letter_xxxv_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_40.htm"],
+          ["npnf2_12_npnf2_12_41_letter_xxxvi_to_flavlan_bishop_of_constantinople_",
+           "",
+           "npnf2_12_41.htm"],
+          ["npnf2_12_npnf2_12_42_letter_xxxvii_to_theodoslus_augustus_",
+           "",
+           "npnf2_12_42.htm"],
+          ["npnf2_12_npnf2_12_43_letter_xxxviii_to_flavian_bishop_of_constantinople_",
+           "",
+           "npnf2_12_43.htm"],
+          ["npnf2_12_npnf2_12_44_letter_xxxix_to_flavian_bishop_of_constantinople_",
+           "",
+           "npnf2_12_44.htm"],
+          ["npnf2_12_npnf2_12_45_letter_xl_to_the_bishops_of_the_province_of_arles_in_gaul_",
+           "",
+           "npnf2_12_45.htm"],
+          ["npnf2_12_npnf2_12_46_letter_xli_to_ravennius_bishop_of_arles_",
+           "",
+           "npnf2_12_46.htm"],
+          ["npnf2_12_npnf2_12_47_letter_xlii_to_ravennius_bishop_of_arles_",
+           "",
+           "npnf2_12_47.htm"],
+          ["npnf2_12_npnf2_12_48_letter_xliii_to_theodosius_augustus_",
+           "",
+           "npnf2_12_48.htm"],
+          ["npnf2_12_npnf2_12_49_letter_xliv_to_theodosius_augustus_",
+           "",
+           "npnf2_12_49.htm"],
+          ["npnf2_12_npnf2_12_50_letter_xlv_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_50.htm"],
+          ["npnf2_12_npnf2_12_51_letter_xlvi_from_hilary_then_deacon_afterwards_bishop_of_rome_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_51.htm"],
+          ["npnf2_12_npnf2_12_52_letter_xlvii_to_anastasius_bishop_of_thessalonica_",
+           "",
+           "npnf2_12_52.htm"],
+          ["npnf2_12_npnf2_12_53_letter_xlviii_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_53.htm"],
+          ["npnf2_12_npnf2_12_54_letter_xlix_to_flavian_bishop_of_constantinople",
+           "",
+           "npnf2_12_54.htm"],
+          ["npnf2_12_npnf2_12_55_letter_l_to_the_people_of_constantinople_by_the_hand_of_epiphanius_and_dionysius_notary_of_the_church_of_ro",
+           "",
+           "npnf2_12_55.htm"],
+          ["npnf2_12_npnf2_12_56_letter_li_to_faustus_and_other_presbyters_and_archimandrites_in_constantinople_",
+           "",
+           "npnf2_12_56.htm"],
+          ["npnf2_12_npnf2_12_57_letter_lii_from_theodoret_bishop_of_cyrus_to_leo_see_vol_iii_of_this_series_p_293_",
+           "",
+           "npnf2_12_57.htm"],
+          ["npnf2_12_npnf2_12_58_letter_liii_a_fragment_of_a_letter_from_anatolius_bishop_of_constantinople_to_leo",
+           "",
+           "npnf2_12_58.htm"],
+          ["npnf2_12_npnf2_12_59_letter_liv_to_theodosius_augustus",
+           "",
+           "npnf2_12_59.htm"],
+          ["npnf2_12_npnf2_12_60_letters_lv_to_lviii_",
+           "",
+           "npnf2_12_60.htm"],
+          ["npnf2_12_npnf2_12_61_letter_lvi_from_galla_placidia_augusta_to_theodosius_",
+           "",
+           "npnf2_12_61.htm"],
+          ["npnf2_12_npnf2_12_62_letter_lix_to_the_clergy_and_people_of_the_city_of_constantinople_",
+           "",
+           "npnf2_12_62.htm"],
+          ["npnf2_12_npnf2_12_63_letter_lx_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_63.htm"],
+          ["npnf2_12_npnf2_12_64_letter_lxi_to_martinus_and_faustus_presbyters_",
+           "",
+           "npnf2_12_64.htm"],
+          ["npnf2_12_npnf2_12_65_letter_lxv_from_the_bishops_of_the_province_of_arles_",
+           "",
+           "npnf2_12_65.htm"],
+          ["npnf2_12_npnf2_12_66_letter_lxvi_leo_s_reply_to_letter_lxv_",
+           "",
+           "npnf2_12_66.htm"],
+          ["npnf2_12_npnf2_12_67_letter_lxvii_to_ravennius_bishop_of_arles_",
+           "",
+           "npnf2_12_67.htm"],
+          ["npnf2_12_npnf2_12_68_letter_lxviii_from_three_gallic_bishops_to_st_leo_",
+           "",
+           "npnf2_12_68.htm"],
+          ["npnf2_12_npnf2_12_69_letter_lxix_to_theodosius_augustus_",
+           "",
+           "npnf2_12_69.htm"],
+          ["npnf2_12_npnf2_12_70_letter_lxx_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_70.htm"],
+          ["npnf2_12_npnf2_12_71_letter_lxxi_to_the_archimandrites_of_constantinople_",
+           "",
+           "npnf2_12_71.htm"],
+          ["npnf2_12_npnf2_12_72_letter_lxxii_to_faustus_one_of_the_archimandrites_at_constantinople_",
+           "",
+           "npnf2_12_72.htm"],
+          ["npnf2_12_npnf2_12_73_letter_lxxiii_from_valentinian_and_marcian_",
+           "",
+           "npnf2_12_73.htm"],
+          ["npnf2_12_npnf2_12_74_letter_lxxiv_to_martinus_another_of_the_archimandrites_at_constantinople_",
+           "",
+           "npnf2_12_74.htm"],
+          ["npnf2_12_npnf2_12_75_letter_lxxv_to_faustus_and_martinus_together_",
+           "",
+           "npnf2_12_75.htm"],
+          ["npnf2_12_npnf2_12_76_letter_lxxvi_from_marcianus_augustus_to_leo_",
+           "",
+           "npnf2_12_76.htm"],
+          ["npnf2_12_npnf2_12_77_letter_lxxvii_from_pulcheria_augusta_to_leo_",
+           "",
+           "npnf2_12_77.htm"],
+          ["npnf2_12_npnf2_12_78_letter_lxxviii_leo_s_answer_to_marcianus_",
+           "",
+           "npnf2_12_78.htm"],
+          ["npnf2_12_npnf2_12_79_letter_lxxix_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_79.htm"],
+          ["npnf2_12_npnf2_12_80_letter_lxxx_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_80.htm"],
+          ["npnf2_12_npnf2_12_81_letter_lxxxi_to_bishop_julian_",
+           "",
+           "npnf2_12_81.htm"],
+          ["npnf2_12_npnf2_12_82_letter_lxxxii_to_marclan_augustus_",
+           "",
+           "npnf2_12_82.htm"],
+          ["npnf2_12_npnf2_12_83_letter_lxxxiii_to_the_same_marcian_",
+           "",
+           "npnf2_12_83.htm"],
+          ["npnf2_12_npnf2_12_84_letter_lxxxiv_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_84.htm"],
+          ["npnf2_12_npnf2_12_85_letter_lxxxv_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_85.htm"],
+          ["npnf2_12_npnf2_12_86_letter_lxxxvi_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_86.htm"],
+          ["npnf2_12_npnf2_12_87_letter_lxxxvii_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_87.htm"],
+          ["npnf2_12_npnf2_12_88_letter_lxxxviii_to_paschasinus_bishop_of_lilybaeum_",
+           "",
+           "npnf2_12_88.htm"],
+          ["npnf2_12_npnf2_12_89_letter_lxxxix_to_marcian_augustus_",
+           "",
+           "npnf2_12_89.htm"],
+          ["npnf2_12_npnf2_12_90_letter_xc_to_marclan_augustus_",
+           "",
+           "npnf2_12_90.htm"],
+          ["npnf2_12_npnf2_12_91_letter_xci_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_91.htm"],
+          ["npnf2_12_npnf2_12_92_letter_xcii_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_92.htm"],
+          ["npnf2_12_npnf2_12_93_letter_xciii_to_the_synod_of_chalcedon_",
+           "",
+           "npnf2_12_93.htm"],
+          ["npnf2_12_npnf2_12_94_letter_xciv_to_marcian_augustus_",
+           "",
+           "npnf2_12_94.htm"],
+          ["npnf2_12_npnf2_12_95_letter_xcv_to_pulcheria_augusta_by_the_hand_of_theoctistus_the_magistrian_",
+           "",
+           "npnf2_12_95.htm"],
+          ["npnf2_12_npnf2_12_96_letter_xcvi_to_ravennius_bishop_of_arles_",
+           "",
+           "npnf2_12_96.htm"],
+          ["npnf2_12_npnf2_12_97_letter_xcvii_from_eusebius_bishop_of_milan_to_leo_",
+           "",
+           "npnf2_12_97.htm"],
+          ["npnf2_12_npnf2_12_98_letter_xcviii_from_the_synod_of_chalcedon_to_leo_",
+           "",
+           "npnf2_12_98.htm"],
+          ["npnf2_12_npnf2_12_99_letter_xcix_from_ravennus_and_other_gallic_bishops_",
+           "",
+           "npnf2_12_99.htm"],
+          ["npnf2_12_npnf2_12_100_letter_c_from_the_emperor_marcian_",
+           "",
+           "npnf2_12_100.htm"],
+          ["npnf2_12_npnf2_12_101_letter_ci_from_anatolius_bishop_of_constantinople_to_leo_",
+           "",
+           "npnf2_12_101.htm"],
+          ["npnf2_12_npnf2_12_102_letter_cii_to_the_gallic_bishops_",
+           "",
+           "npnf2_12_102.htm"],
+          ["npnf2_12_npnf2_12_103_letter_ciii_to_the_gallic_bishops_",
+           "",
+           "npnf2_12_103.htm"],
+          ["npnf2_12_npnf2_12_104_letter_civ_leo_the_bishop_to_marcian_augustus_",
+           "",
+           "npnf2_12_104.htm"],
+          ["npnf2_12_npnf2_12_105_letter_cv_to_pulcheria_augusta_about_the_self_seeking_of_anatolius_",
+           "",
+           "npnf2_12_105.htm"],
+          ["npnf2_12_npnf2_12_106_letter_cvi_to_anatolius_bishop_of_constantinople_in_rebuke_of_his_self_seeking_",
+           "",
+           "npnf2_12_106.htm"],
+          ["npnf2_12_npnf2_12_107_letter_cvii_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_107.htm"],
+          ["npnf2_12_npnf2_12_108_letter_cviii_to_theodore_bishop_of_forum_julii_",
+           "",
+           "npnf2_12_108.htm"],
+          ["npnf2_12_npnf2_12_109_letter_cix_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_109.htm"],
+          ["npnf2_12_npnf2_12_110_letter_cx_from_marcian_augustus_",
+           "",
+           "npnf2_12_110.htm"],
+          ["npnf2_12_npnf2_12_111_letter_cxi_to_marcian_augustus_",
+           "",
+           "npnf2_12_111.htm"],
+          ["npnf2_12_npnf2_12_112_letter_cxii_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_112.htm"],
+          ["npnf2_12_npnf2_12_113_letter_cxiii_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_113.htm"],
+          ["npnf2_12_npnf2_12_114_letter_cxiv_to_the_bishops_assembled_in_synod_at_chalcedon_",
+           "",
+           "npnf2_12_114.htm"],
+          ["npnf2_12_npnf2_12_115_letter_cxv_to_marcian_augustus_",
+           "",
+           "npnf2_12_115.htm"],
+          ["npnf2_12_npnf2_12_116_letter_cxv_to_pulcheria_augusta_",
+           "",
+           "npnf2_12_116.htm"],
+          ["npnf2_12_npnf2_12_117_letter_cxvii_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_117.htm"],
+          ["npnf2_12_npnf2_12_118_letter_cxviii_to_the_same_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_118.htm"],
+          ["npnf2_12_npnf2_12_119_letter_cxix_to_maximus_bishop_of_antioch_by_the_hand_of_marian_the_presbyter_and_olympius_the_deacon_",
+           "",
+           "npnf2_12_119.htm"],
+          ["npnf2_12_npnf2_12_120_letter_cxx_to_theodoret_bishop_of_cyrus_on_perseverance_in_the_faith_",
+           "",
+           "npnf2_12_120.htm"],
+          ["npnf2_12_npnf2_12_121_letters_cxxi_and_cxxii_the_former_to_marcian_augustus_and_the_other_to_julian_the_bishop_",
+           "",
+           "npnf2_12_121.htm"],
+          ["npnf2_12_npnf2_12_122_letter_cxxiii_to_eudocia_augusta_about_the_monksof_palestine_",
+           "",
+           "npnf2_12_122.htm"],
+          ["npnf2_12_npnf2_12_123_letter_cxxiv_to_the_monks_of_palestine_",
+           "",
+           "npnf2_12_123.htm"],
+          ["npnf2_12_npnf2_12_124_letter_cxxv_to_julian_the_bishop_by_count_rodanus_",
+           "",
+           "npnf2_12_124.htm"],
+          ["npnf2_12_npnf2_12_125_letter_cxxvi_to_marcian_augustus_",
+           "",
+           "npnf2_12_125.htm"],
+          ["npnf2_12_npnf2_12_126_letter_cxxvii_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_126.htm"],
+          ["npnf2_12_npnf2_12_127_letter_cxxvii_to_marcian_augustus_",
+           "",
+           "npnf2_12_127.htm"],
+          ["npnf2_12_npnf2_12_128_letter_cxxix_to_proterius_bishop_of_alexandria_",
+           "",
+           "npnf2_12_128.htm"],
+          ["npnf2_12_npnf2_12_129_letter_cxxx_to_marcian_augustus_",
+           "",
+           "npnf2_12_129.htm"],
+          ["npnf2_12_npnf2_12_130_letter_cxxxi_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_130.htm"],
+          ["npnf2_12_npnf2_12_131_letter_cxxxii_from_anatolius_bishop_of_constantinople_to_leo_",
+           "",
+           "npnf2_12_131.htm"],
+          ["npnf2_12_npnf2_12_132_letter_cxxxiii_from_proterius_bishop_of_alexandria_to_leo_upon_the_easter_difficulty_of_455_",
+           "",
+           "npnf2_12_132.htm"],
+          ["npnf2_12_npnf2_12_133_letter_cxxxiv_to_marcian_augustus_",
+           "",
+           "npnf2_12_133.htm"],
+          ["npnf2_12_npnf2_12_134_letter_cxxxv_to_anatolius_in_answer_to_cxxxii_",
+           "",
+           "npnf2_12_134.htm"],
+          ["npnf2_12_npnf2_12_135_letter_cxxxvi_to_marcian_augustus_",
+           "",
+           "npnf2_12_135.htm"],
+          ["npnf2_12_npnf2_12_136_letter_cxxxvii_to_the_same_and_on_the_same_day_",
+           "",
+           "npnf2_12_136.htm"],
+          ["npnf2_12_npnf2_12_137_letter_cxxxviii_to_the_bishops_of_gaul_and_spain_on_easter_",
+           "",
+           "npnf2_12_137.htm"],
+          ["npnf2_12_npnf2_12_138_letter_cxxxix_to_juvenal_bishop_of_jerusalem_",
+           "",
+           "npnf2_12_138.htm"],
+          ["npnf2_12_npnf2_12_139_letter_cxl_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_139.htm"],
+          ["npnf2_12_npnf2_12_140_letter_cxli_to_the_same_on_several_minor_points_of_detail_",
+           "",
+           "npnf2_12_140.htm"],
+          ["npnf2_12_npnf2_12_141_letter_cxlii_to_marcian_augustus_",
+           "",
+           "npnf2_12_141.htm"],
+          ["npnf2_12_npnf2_12_142_letter_cxliii_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_142.htm"],
+          ["npnf2_12_npnf2_12_143_letter_cxliv_to_julian_bishop_of_cos_speaking_of_run_ours_which_have_reached_him_of_disturbances_at_alexan",
+           "",
+           "npnf2_12_143.htm"],
+          ["npnf2_12_npnf2_12_144_letter_cxlv_to_leo_augustus_",
+           "",
+           "npnf2_12_144.htm"],
+          ["npnf2_12_npnf2_12_145_letter_cxlvi_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_145.htm"],
+          ["npnf2_12_npnf2_12_146_letter_cxlviii_to_leo_augustus_",
+           "",
+           "npnf2_12_146.htm"],
+          ["npnf2_12_npnf2_12_147_letter_cxlix_to_basil_bishop_of_antioch_",
+           "",
+           "npnf2_12_147.htm"],
+          ["npnf2_12_npnf2_12_148_letter_cl_to_euxitheus_bishop_of_thessalonica_and_others_to_the_same_effect_",
+           "",
+           "npnf2_12_148.htm"],
+          ["npnf2_12_npnf2_12_149_letter_cli_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_149.htm"],
+          ["npnf2_12_npnf2_12_150_letter_clii_to_julian_bishop_of_cos_",
+           "",
+           "npnf2_12_150.htm"],
+          ["npnf2_12_npnf2_12_151_letter_cliii_to_aetius_presbyter_of_constantinople_",
+           "",
+           "npnf2_12_151.htm"],
+          ["npnf2_12_npnf2_12_152_letter_cliv_to_the_egyptian_bishops_see_letter_clviii_",
+           "",
+           "npnf2_12_152.htm"],
+          ["npnf2_12_npnf2_12_153_letter_clv_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_153.htm"],
+          ["npnf2_12_npnf2_12_154_letter_clvi_to_leo_augustus_",
+           "",
+           "npnf2_12_154.htm"],
+          ["npnf2_12_npnf2_12_155_letter_clvii_to_anatolius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_155.htm"],
+          ["npnf2_12_npnf2_12_156_letter_clviii_to_the_catholic_bishops_of_egypt_sojourning_in_constantinople_",
+           "",
+           "npnf2_12_156.htm"],
+          ["npnf2_12_npnf2_12_157_letter_clix_to_nicaetas_bishop_of_aquileia_",
+           "",
+           "npnf2_12_157.htm"],
+          ["npnf2_12_npnf2_12_158_letter_clx_see_letter_clviii_",
+           "",
+           "npnf2_12_158.htm"],
+          ["npnf2_12_npnf2_12_159_letter_clxi_to_the_presbyters_deacons_and_clergy_of_the_church_of_constantinople_",
+           "",
+           "npnf2_12_159.htm"],
+          ["npnf2_12_npnf2_12_160_letter_clxii_to_leo_augustus_",
+           "",
+           "npnf2_12_160.htm"],
+          ["npnf2_12_npnf2_12_161_letter_clxiii_to_anatolius_bishop_of_constantinople_by_patritius_the_deacon_the_deacon_",
+           "",
+           "npnf2_12_161.htm"],
+          ["npnf2_12_npnf2_12_162_letter_clxiv_to_leo_augustus_",
+           "",
+           "npnf2_12_162.htm"],
+          ["npnf2_12_npnf2_12_163_letter_clxv_to_leo_augustus_",
+           "",
+           "npnf2_12_163.htm"],
+          ["npnf2_12_npnf2_12_164_letter_clxvi_to_neo_bishop_of_ravenna_",
+           "",
+           "npnf2_12_164.htm"],
+          ["npnf2_12_npnf2_12_165_letter_clxvii_to_rusticus_bishop_of_gallia_narbonensis_with_the_replies_to_his_questions_on_various_points",
+           "",
+           "npnf2_12_165.htm"],
+          ["npnf2_12_npnf2_12_166_letter_clxviii_to_all_the_bishops_of_campania_samnium_and_picenum_",
+           "",
+           "npnf2_12_166.htm"],
+          ["npnf2_12_npnf2_12_167_letter_clxix_to_leo_augustus_",
+           "",
+           "npnf2_12_167.htm"],
+          ["npnf2_12_npnf2_12_168_letter_clxx_to_gennadius_bishop_of_constantinople_",
+           "",
+           "npnf2_12_168.htm"],
+          ["npnf2_12_npnf2_12_169_letter_clxxi_to_timothy_bishop_of_alexandria_",
+           "",
+           "npnf2_12_169.htm"],
+          ["npnf2_12_npnf2_12_170_letter_clxxii_to_the_presbyters_and_deacons_of_the_church_of_alexandria_",
+           "",
+           "npnf2_12_170.htm"],
+          ["npnf2_12_npnf2_12_171_letter_clxxiii_to_certain_egyptian_bishops_",
+           "",
+           "npnf2_12_171.htm"]
       ]
-    ]
   },
   {
     "author": "Gregory the Great",
-    "title": "Part I.",
-    "key": "223_part_i_",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_223_part_i_",
-        "P4277_1092686",
-        "Npnf2-12-223.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Part II. Of the Life of the Pastor.",
-    "key": "224_part_ii_of_the_life_of_the_pastor_",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_224_part_ii_of_the_life_of_the_pastor_",
-        "P4323_1134789",
-        "Npnf2-12-224.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Part III. How the Ruler, While Living Well, Ought to Teach and Admonish Those that are Put Under Him.",
-    "key": "225_part_iii_how_the_ruler_while_living_well_ought_to_teach_and_admonish_those_that_are_put_under_him_",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_225_part_iii_how_the_ruler_while_living_well_ought_to_teach_and_admonish_those_that_are_put_under_him_",
-        "P4376_1212446",
-        "Npnf2-12-225.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Part IV. How the Preacher, When He Has Accomplished All Aright, Should Return to Himself, Lest Either His Life or His Preaching Lift Him Up.",
-    "key": "226_part_iv_how_the_preacher_when_he_has_accomplished_all_aright_should_return_to_himself_lest_either_his_life_or_his_preaching_lift_him_up_",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_226_part_iv_how_the_preacher_when_he_has_accomplished_all_aright_should_return_to_himself_lest_either_his_life_or_his_preaching_lift_him_up_",
-        "P4627_1456606",
-        "Npnf2-12-226.htm"
-      ]
-    ]
-  },
-  {
+    "title": "Sermons of St. Gregory the Great.",
+    "key": "sermons_of_saint_gregory_the_great_",
+      "paths": [
+          ["npnf2_12_npnf2_12_172_sermons_",
+           "",
+           "npnf2_12_172.htm"],
+          ["npnf2_12_npnf2_12_173_sermon_i_preached_on_his_birthday_or_day_of_ordination_",
+           "",
+           "npnf2_12_173.htm"],
+          ["npnf2_12_npnf2_12_174_sermon_ii_on_his_birthday_ii_delivered_on_the_anniversary_of_his_consecration_",
+           "",
+           "npnf2_12_174.htm"],
+          ["npnf2_12_npnf2_12_175_sermon_iii_on_his_birthday_iii_delivered_on_the_anniversary_of_his_elevation_to_the_pontificate_",
+           "",
+           "npnf2_12_175.htm"],
+          ["npnf2_12_npnf2_12_176_sermon_ix_upon_the_collections_iv_",
+           "",
+           "npnf2_12_176.htm"],
+          ["npnf2_12_npnf2_12_177_sermon_x_on_the_collections_v_",
+           "",
+           "npnf2_12_177.htm"],
+          ["npnf2_12_npnf2_12_178_sermon_xii_on_the_fast_of_the_tenth_month_i_",
+           "",
+           "npnf2_12_178.htm"],
+          ["npnf2_12_npnf2_12_179_sermon_xvi_on_the_fast_of_the_tenth_month_",
+           "",
+           "npnf2_12_179.htm"],
+          ["npnf2_12_npnf2_12_180_sermon_xvii_on_the_fast_of_the_tenth_month_vi_",
+           "",
+           "npnf2_12_180.htm"],
+          ["npnf2_12_npnf2_12_181_sermon_xix_on_the_fast_of_the_ten_month_viii_",
+           "",
+           "npnf2_12_181.htm"],
+          ["npnf2_12_npnf2_12_182_sermon_xxi_on_the_feast_of_the_nativity_i_",
+           "",
+           "npnf2_12_182.htm"],
+          ["npnf2_12_npnf2_12_183_sermon_xxii_on_the_feast_of_the_nativity_ii_",
+           "",
+           "npnf2_12_183.htm"],
+          ["npnf2_12_npnf2_12_184_sermon_xxiii_on_the_feast_of_the_nativity_iii_",
+           "",
+           "npnf2_12_184.htm"],
+          ["npnf2_12_npnf2_12_185_sermon_xxiv_on_the_feast_of_the_nativity_iv_",
+           "",
+           "npnf2_12_185.htm"],
+          ["npnf2_12_npnf2_12_186_sermon_xxvi_on_the_feast_of_the_nativity_vi_",
+           "",
+           "npnf2_12_186.htm"],
+          ["npnf2_12_npnf2_12_187_sermon_xxvii_on_the_feast_of_the_nativity_vii_",
+           "",
+           "npnf2_12_187.htm"],
+          ["npnf2_12_npnf2_12_188_sermon_xxviii_on_the_festival_of_the_nativity_viii_",
+           "",
+           "npnf2_12_188.htm"],
+          ["npnf2_12_npnf2_12_189_sermon_xxxi_on_the_feast_of_the_epiphany_i_",
+           "",
+           "npnf2_12_189.htm"],
+          ["npnf2_12_npnf2_12_190_sermon_xxxiii_on_the_feast_of_the_epiphany_iii_",
+           "",
+           "npnf2_12_190.htm"],
+          ["npnf2_12_npnf2_12_191_sermon_xxxiv_on_the_feast_of_the_epiphany_iv_",
+           "",
+           "npnf2_12_191.htm"],
+          ["npnf2_12_npnf2_12_192_sermon_xxxvi_on_the_feast_of_the_epiphany_vi_",
+           "",
+           "npnf2_12_192.htm"],
+          ["npnf2_12_npnf2_12_193_sermon_xxxix_on_lent_i_",
+           "",
+           "npnf2_12_193.htm"],
+          ["npnf2_12_npnf2_12_194_sermon_xl_on_lent_ii_",
+           "",
+           "npnf2_12_194.htm"],
+          ["npnf2_12_npnf2_12_195_sermon_xlii_on_lent_iv_",
+           "",
+           "npnf2_12_195.htm"],
+          ["npnf2_12_npnf2_12_196_sermon_xlvi_on_lent_viii_",
+           "",
+           "npnf2_12_196.htm"],
+          ["npnf2_12_npnf2_12_197_sermon_xlix_on_lent_xi_",
+           "",
+           "npnf2_12_197.htm"],
+          ["npnf2_12_npnf2_12_198_sermon_li_a_homily_delivered_on_the_saturday_before_the_second_sunday_in_lent_on_the_transfiguration_s_mat",
+           "",
+           "npnf2_12_198.htm"],
+          ["npnf2_12_npnf2_12_199_sermon_liv_on_the_passion_iii_delivered_on_the_sunday_before_easter_",
+           "",
+           "npnf2_12_199.htm"],
+          ["npnf2_12_npnf2_12_200_sermon_lv_on_the_lord_s_passion_iv_delivered_on_wednesday_in_holy_week_",
+           "",
+           "npnf2_12_200.htm"],
+          ["npnf2_12_npnf2_12_201_sermon_lviii_on_the_passion_vii_",
+           "",
+           "npnf2_12_201.htm"],
+          ["npnf2_12_npnf2_12_202_sermon_lix_on_the_passion_viii_on_wednesday_in_holy_week_",
+           "",
+           "npnf2_12_202.htm"],
+          ["npnf2_12_npnf2_12_203_sermon_lxii_on_the_passion_xi_",
+           "",
+           "npnf2_12_203.htm"],
+          ["npnf2_12_npnf2_12_204_sermon_lxiii_on_the_passion_xii_preached_on_wednesday_",
+           "",
+           "npnf2_12_204.htm"],
+          ["npnf2_12_npnf2_12_205_sermon_lxvii_on_the_passion_xvi_delivered_on_the_sunday_",
+           "",
+           "npnf2_12_205.htm"],
+          ["npnf2_12_npnf2_12_206_sermon_lxviii_on_the_passion_xvii_delivered_on_the_wednesday_",
+           "",
+           "npnf2_12_206.htm"],
+          ["npnf2_12_npnf2_12_207_sermon_lxxi_on_the_lord_s_resurrection_i_delivered_on_holy_saturday_in_the_vigil_of_easter_",
+           "",
+           "npnf2_12_207.htm"],
+          ["npnf2_12_npnf2_12_208_sermon_lxxii_on_the_lord_s_resurrection_ii_",
+           "",
+           "npnf2_12_208.htm"],
+          ["npnf2_12_npnf2_12_209_sermon_lxxiii_on_the_lord_s_ascension_i_",
+           "",
+           "npnf2_12_209.htm"],
+          ["npnf2_12_npnf2_12_210_sermon_lxxiv_on_the_lord_s_ascension_ii_",
+           "",
+           "npnf2_12_210.htm"],
+          ["npnf2_12_npnf2_12_211_sermon_lxxv_on_whitsuntide_i_",
+           "",
+           "npnf2_12_211.htm"],
+          ["npnf2_12_npnf2_12_212_sermon_lxxvii_on_whitsuntide_iii_",
+           "",
+           "npnf2_12_212.htm"],
+          ["npnf2_12_npnf2_12_213_sermon_lxxviii_on_the_whidsuntide_fast_i_",
+           "",
+           "npnf2_12_213.htm"],
+          ["npnf2_12_npnf2_12_214_sermon_lxxxii_on_the_feast_of_the_apostles_peter_and_paul_june_29_",
+           "",
+           "npnf2_12_214.htm"],
+          ["npnf2_12_npnf2_12_215_sermon_lxxxiv_concerning_the_neglect_of_the_commemoration_",
+           "",
+           "npnf2_12_215.htm"],
+          ["npnf2_12_npnf2_12_216_sermon_lxxxv_on_the_feast_of_s_laurence_the_martyr_aug_10_",
+           "",
+           "npnf2_12_216.htm"],
+          ["npnf2_12_npnf2_12_217_sermon_lxxxviii_on_the_fast_of_the_seventh_month_iii_",
+           "",
+           "npnf2_12_217.htm"],
+          ["npnf2_12_npnf2_12_218_sermon_xc_on_the_fast_of_seventh_month_v_",
+           "",
+           "npnf2_12_218.htm"],
+          ["npnf2_12_npnf2_12_219_sermon_xci_on_the_fast_of_the_seventh_month_vi_",
+           "",
+           "npnf2_12_219.htm"],
+          ["npnf2_12_npnf2_12_220_sermon_xcv_a_homily_on_the_beatitudes_st_matt_v_1_9_",
+           "",
+           "npnf2_12_220.htm"],
+          ["npnf2_12_npnf2_12_221_undefined",
+           "",
+           "npnf2_12_221.htm"]
+          
+    ]},
+        {
     "author": "Gregory the Great",
     "title": "Register of the Epistles of Saint Gregory the Great.",
     "key": "227_register_of_the_epistles_of_saint_gregory_the_great_",
@@ -20931,151 +21544,31 @@
         "npnf2_12_npnf2_12_227_register_of_the_epistles_of_saint_gregory_the_great_",
         "P4637_1462929",
         "Npnf2-12-227.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book I. The Month of September, Indiction IX., Being the First Year of His Ordination.",
-    "key": "228_book_i_the_month_of_september_indiction_ix_being_the_first_year_of_his_ordination_",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_228_book_i_the_month_of_september_indiction_ix_being_the_first_year_of_his_ordination_",
-        "P4641_1462981",
-        "Npnf2-12-228.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book II",
-    "key": "229_book_ii",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_229_book_ii",
-        "P4995_1612473",
-        "Npnf2-12-229.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book III",
-    "key": "230_book_iii",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_230_book_iii",
-        "P5240_1722737",
-        "Npnf2-12-230.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book IV",
-    "key": "231_book_iv",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_231_book_iv",
-        "P5470_1841431",
-        "Npnf2-12-231.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book V",
-    "key": "232_book_v",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_232_book_v",
-        "P5709_1934700",
-        "Npnf2-12-232.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book VI",
-    "key": "233_book_vi",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_233_book_vi",
-        "P5967_2067802",
-        "Npnf2-12-233.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book VII",
-    "key": "234_book_vii",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_234_book_vii",
-        "P6254_2176652",
-        "Npnf2-12-234.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Gregory the Great",
-    "title": "Book VIII",
-    "key": "235_book_viii",
-    "paths": [
-      [
-        "npnf2_12_npnf2_12_235_book_viii",
-        "P6451_2280787",
-        "Npnf2-12-235.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim the Syrian",
-    "title": "Ephraim the Syrian",
-    "key": "10_ephraim_the_syrian",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_10_ephraim_the_syrian",
-        "P1439_565345",
-        "Npnf2-13-10.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim the Syrian",
-    "title": "Preface",
-    "key": "11_preface",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_11_preface",
-        "P1445_565492",
-        "Npnf2-13-11.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim the Syrian",
-    "title": "Introductory Dissertation",
-    "key": "12_introductory_dissertation",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_12_introductory_dissertation",
-        "P1462_570330",
-        "Npnf2-13-12.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Ephraim Syrus",
-    "key": "13_ephraim_syrus",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_13_ephraim_syrus",
-        "P1768_735166",
-        "Npnf2-13-13.htm"
-      ]
+    ],
+        ["npnf2_12_npnf2_12_228_book_i_the_month_of_september_indiction_ix_being_the_first_year_of_his_ordination_",
+         "",
+         "npnf2_12_228.htm"],
+        ["npnf2_12_npnf2_12_229_book_ii",
+         "",
+         "npnf2_12_229.htm"],
+        ["npnf2_12_npnf2_12_230_book_iii",
+         "",
+         "npnf2_12_230.htm"],
+        ["npnf2_12_npnf2_12_231_book_iv",
+         "",
+         "npnf2_12_231.htm"],
+        ["npnf2_12_npnf2_12_232_book_v",
+         "",
+         "npnf2_12_232.htm"],
+        ["npnf2_12_npnf2_12_233_book_vi",
+         "",
+         "npnf2_12_233.htm"],
+        ["npnf2_12_npnf2_12_234_book_vii",
+         "",
+         "npnf2_12_234.htm"],
+        ["npnf2_12_npnf2_12_235_book_viii",
+         "",
+         "npnf2_12_235.htm"]
     ]
   },
   {
@@ -21087,211 +21580,58 @@
         "npnf2_13_npnf2_13_14_the_nisibene_hymns",
         "P1772_735179",
         "Npnf2-13-14.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Nineteen Hymns on the Nativity of Christ in the Flesh.",
-    "key": "15_nineteen_hymns_on_the_nativity_of_christ_in_the_flesh_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_15_nineteen_hymns_on_the_nativity_of_christ_in_the_flesh_",
-        "P2457_928154",
-        "Npnf2-13-15.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn I.",
-    "key": "16_hymn_i_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_16_hymn_i_",
-        "P2462_928335",
-        "Npnf2-13-16.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn II.",
-    "key": "17_hymn_ii_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_17_hymn_ii_",
-        "P2507_943136",
-        "Npnf2-13-17.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn III.",
-    "key": "18_hymn_iii_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_18_hymn_iii_",
-        "P2548_951414",
-        "Npnf2-13-18.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn IV.",
-    "key": "19_hymn_iv_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_19_hymn_iv_",
-        "P2604_972092",
-        "Npnf2-13-19.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn V.",
-    "key": "20_hymn_v_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_20_hymn_v_",
-        "P2658_982121",
-        "Npnf2-13-20.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn VI.",
-    "key": "21_hymn_vi_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_21_hymn_vi_",
-        "P2675_985033",
-        "Npnf2-13-21.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn VII.",
-    "key": "22_hymn_vii_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_22_hymn_vii_",
-        "P2707_990472",
-        "Npnf2-13-22.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn VIII.",
-    "key": "23_hymn_viii_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_23_hymn_viii_",
-        "P2729_993854",
-        "Npnf2-13-23.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn IX.",
-    "key": "24_hymn_ix_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_24_hymn_ix_",
-        "P2775_1001535",
-        "Npnf2-13-24.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn X.",
-    "key": "25_hymn_x_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_25_hymn_x_",
-        "P2796_1004609",
-        "Npnf2-13-25.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn XI.",
-    "key": "26_hymn_xi_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_26_hymn_xi_",
-        "P2816_1006990",
-        "Npnf2-13-26.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn XII.",
-    "key": "27_hymn_xii_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_27_hymn_xii_",
-        "P2842_1010895",
-        "Npnf2-13-27.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn XIII.",
-    "key": "28_hymn_xiii_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_28_hymn_xiii_",
-        "P2869_1015499",
-        "Npnf2-13-28.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Hymn XIV.",
-    "key": "29_hymn_xiv_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_29_hymn_xiv_",
-        "P2928_1024208",
-        "Npnf2-13-29.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "Fifteen Hymns for the Feast of the Epiphany.",
-    "key": "30_fifteen_hymns_for_the_feast_of_the_epiphany_",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_30_fifteen_hymns_for_the_feast_of_the_epiphany_",
-        "P3137_1066538",
-        "Npnf2-13-30.htm"
-      ]
-    ]
-  },
-  {
-    "author": "Ephraim Syrus",
-    "title": "The Pearl-Seven Hymns on the Faith",
-    "key": "31_the_pearl_seven_hymns_on_the_faith",
-    "paths": [
-      [
-        "npnf2_13_npnf2_13_31_the_pearl_seven_hymns_on_the_faith",
-        "P3550_1144476",
-        "Npnf2-13-31.htm"
-      ]
+    ],
+        ["npnf2_13_npnf2_13_15_nineteen_hymns_on_the_nativity_of_christ_in_the_flesh_",
+         "",
+         "npnf2_13_15.htm"],
+        ["npnf2_13_npnf2_13_16_hymn_i_",
+         "",
+         "npnf2_13_16.htm"],
+        ["npnf2_13_npnf2_13_17_hymn_ii_",
+         "",
+         "npnf2_13_17.htm"],
+        ["npnf2_13_npnf2_13_18_hymn_iii_",
+         "",
+         "npnf2_13_18.htm"],
+        ["npnf2_13_npnf2_13_19_hymn_iv_",
+         "",
+         "npnf2_13_19.htm"],
+        ["npnf2_13_npnf2_13_20_hymn_v_",
+         "",
+         "npnf2_13_20.htm"],
+        ["npnf2_13_npnf2_13_21_hymn_vi_",
+         "",
+         "npnf2_13_21.htm"],
+        ["npnf2_13_npnf2_13_22_hymn_vii_",
+         "",
+         "npnf2_13_22.htm"],
+        ["npnf2_13_npnf2_13_23_hymn_viii_",
+         "",
+         "npnf2_13_23.htm"],
+        ["npnf2_13_npnf2_13_24_hymn_ix_",
+         "",
+         "npnf2_13_24.htm"],
+        ["npnf2_13_npnf2_13_25_hymn_x_",
+         "",
+         "npnf2_13_25.htm"],
+        ["npnf2_13_npnf2_13_26_hymn_xi_",
+         "",
+         "npnf2_13_26.htm"],
+        ["npnf2_13_npnf2_13_27_hymn_xii_",
+         "",
+         "npnf2_13_27.htm"],
+        ["npnf2_13_npnf2_13_28_hymn_xiii_",
+         "",
+         "npnf2_13_28.htm"],
+        ["npnf2_13_npnf2_13_29_hymn_xiv_",
+         "",
+         "npnf2_13_29.htm"],
+        ["npnf2_13_npnf2_13_30_fifteen_hymns_for_the_feast_of_the_epiphany_",
+         "",
+         "npnf2_13_30.htm"],
+        ["npnf2_13_npnf2_13_31_the_pearl_seven_hymns_on_the_faith",
+         "",
+         "npnf2_13_31.htm"]
     ]
   },
   {
