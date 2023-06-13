@@ -16,9 +16,13 @@ const footnotes_table = [
      pattern: 'Div. Nom.',
      latinpattern: 'divinis nominibus'},
     {author: 'augustine',
-     title: 'city_of_god',
+     title: 'the_city_of_god_',
      pattern: 'De Civ. Dei',
-     latinpattern: 'de Civ. Dei'},
+     latinpattern: 'de Civ. Dei',
+     processor: (ref_nums) => {
+         return {orig: ref_nums,
+                 volume: 0 + ref_nums[0],
+                 section: 1 + ref_nums[1]}; }},     
     {author: 'augustine',
      title: 'literal_meaning_of_genesis',
      pattern: 'Gen. ad lit.',
@@ -42,7 +46,11 @@ const footnotes_table = [
     {author: 'augustine',
      title: 'on_christian_doctrine', 
      pattern: 'De Doctr. Christ.',
-     latinpattern: 'de doctr. christ..'},
+     latinpattern: 'de doctr. christ..',
+     processor: (ref_nums) => {
+         return {orig: ref_nums,
+                 volume: 1 + ref_nums[0],
+                 section: 1 + ref_nums[1]}; }},
     {author: 'augustine',
      title: 'enchiridion', 
      pattern: 'Enchir.',
@@ -120,9 +128,15 @@ const footnotes_table = [
      pattern: 'in Matth.',
      latinpattern: 'in Matth'},
     {author: 'chrysostom',
+     data_author: 'st_john_chrysostom',
      title: 'commentary_on_matthew', 
      pattern: 'in Matth.',
-     latinpattern: 'in Matth'},
+     latinpattern: 'in Matth',
+     processor: (ref_nums) => {
+         return {orig: ref_nums,
+                 volume: -1 + ref_nums[0],
+                 section: 0,
+                 paragraph: 1 + (ref_nums.length > 1 ? ref_nums[1] : 0)}; }},
     {author: 'ambrose',
      title: 'prosologium', 
      pattern: 'Prosolog.',
@@ -205,7 +219,7 @@ function scan_for_footnotes(path) {
                                                       footnotes_table)}; })}; })}); }
 
 function apply_footnotes(path, data) {
-    console.log('writing', path);//, util.inspect(data, false, null, true));
+    console.log('writing', path, util.inspect(data, false, null, true));
     fs.writeFileSync(path, JSON.stringify(data, null, "  ")); }
 
 function mark_dupes(footnotes) {
@@ -276,12 +290,12 @@ function find_footnotes(text, patterns) {
             const after_regex  = new RegExp(
                 '\\b((' + roman_numerals + "|[0-9]+)[., ]*)+[a-z. *]*(]|\\))", 'gi');
             const before_regex = new RegExp(
-                "[\\[(]\\**[a-z. ]*((" + roman_numerals + "|[0-9]+)[\.,]* *)+\b", 'gi');
+                "(\\(|\\[)\\**[a-z. ]*((" + roman_numerals + "|[0-9]+)[., ]*)+", 'gi');
 
             let chapt_match = [...context_after.matchAll(after_regex)];
             if (chapt_match.length === 0)
                 chapt_match = [...context_before.matchAll(before_regex)];
-
+            console.log(chapt_match, context_before);
             const ref_block = chapt_match.length > 0
                   && get_ref_block(pattern, chapt_match[0][0]);
             
@@ -289,7 +303,7 @@ function find_footnotes(text, patterns) {
                 ? null
                 : {index:     match.index,
                    volume:    pattern.title,
-                   author:    pattern.author,
+                   author:    pattern.data_author || pattern.author,
                    reference: ref_block}; }); });
 
     let found_refs = refs.flat().filter(x => x);
@@ -321,5 +335,6 @@ function scan_all() {
             if (filename.match('.html.json')) {
                 scan_for_footnotes(filename); }}); }
 
-scan_all();
-//scan_for_footnotes(path);
+//scan_all();
+scan_for_footnotes(path);
+
