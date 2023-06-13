@@ -1,7 +1,10 @@
+
 const fs          = require('fs');
 const util        = require('util');
+const utils       = require('../../../../utils');
 
-const roman_numerals = '(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})';
+const roman_numerals = //'M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})';
+      '(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})';
 
 const footnotes_table = [
     {author: 'dionysius',
@@ -202,7 +205,7 @@ function scan_for_footnotes(path) {
                                                       footnotes_table)}; })}; })}); }
 
 function apply_footnotes(path, data) {
-    console.log('writing', path);
+    console.log('writing', path);//, util.inspect(data, false, null, true));
     fs.writeFileSync(path, JSON.stringify(data, null, "  ")); }
 
 function mark_dupes(footnotes) {
@@ -216,6 +219,37 @@ function mark_dupes(footnotes) {
     for (let i in footnotes) {
         if (table[footnotes[i].pattern].length > 1) {
             footnotes[i].is_dupe = true; }}}
+
+function parse_number(string) {
+    string = string.replace(/[^a-z0-9]+/gi, '');
+
+    if (string.match(/^[0-9]+$/)) {
+        return parseInt(string); }
+    
+    else {
+        return utils.parse_roman(string); }}    
+
+function get_ref_block(pattern, string) {
+    let number_matches = [...string.matchAll(
+        new RegExp("\\b((" + roman_numerals + "|[0-9]+)[,. ]*)+\\b", "gi"))];
+    if (number_matches.length > 0) {
+        number_matches = number_matches
+            .map(m => m[0])
+            .sort((a, b) => a.length > b.length ? -1 : 1)[0]
+            .split(/[,. ]+/)
+            .map(parse_number);
+        //    number_matches = number_matches.map(parse_number);
+        
+        if (pattern.processor) {
+            return pattern.processor(number_matches, string); }
+
+        else {
+            return {author:    pattern.author,
+                    volume:    pattern.title,
+                    reference: number_matches}; }}
+    
+    else {
+        return null; }}
         
 function find_footnotes(text, patterns) {
     text = text.toLowerCase();
@@ -240,22 +274,43 @@ function find_footnotes(text, patterns) {
                     return null; }}
 
             const after_regex  = new RegExp(
-                '((' + roman_numerals + "|[0-9]+)[\\.,]* )*([a-z. ])*\\**[\\])]", 'gi');
+                '\\b((' + roman_numerals + "|[0-9]+)[., ]*)+[a-z. *]*(]|\\))", 'gi');
             const before_regex = new RegExp(
-                "[\\[(]\\**[a-z. ]*((" + roman_numerals + "|[0-9]+)[\.,]* *)", 'gi');
+                "[\\[(]\\**[a-z. ]*((" + roman_numerals + "|[0-9]+)[\.,]* *)+\b", 'gi');
 
             let chapt_match = [...context_after.matchAll(after_regex)];
             if (chapt_match.length === 0)
                 chapt_match = [...context_before.matchAll(before_regex)];
 
-            return chapt_match.length === 0
+            const ref_block = chapt_match.length > 0
+                  && get_ref_block(pattern, chapt_match[0][0]);
+            
+            return chapt_match.length === 0 || !ref_block
                 ? null
                 : {index:     match.index,
                    volume:    pattern.title,
                    author:    pattern.author,
-                   reference: chapt_match[0][0]}; }); });
+                   reference: ref_block}; }); });
 
-    return refs.flat().filter(x => x); }
+    let found_refs = refs.flat().filter(x => x);
+    const paren_matches = [...text.matchAll(/\(.*?\)/g),
+                           ...text.matchAll(/\[.*?\]/g)];
+    paren_matches.map(match => {
+        let matchstart = match.index;
+        let matchend   = match.index + match[0].length;
+        let crossovers = found_refs.filter(
+            r => !(r.index > matchstart && r.index < matchend));
+
+        if (crossovers.length === 0) {
+            let bible_refs = utils.parse_refs(text.slice(matchstart, matchend));
+            
+            if (bible_refs.length > 0) {
+                found_refs.push({index:     matchstart + bible_refs[0].index,
+                                 volume:    "bible",
+                                 author:    "bible",
+                                 reference: bible_refs[0]}); }}});
+    
+    return found_refs; }
 
 const path = "./SS_SS187.html.json";
 
@@ -266,4 +321,5 @@ function scan_all() {
             if (filename.match('.html.json')) {
                 scan_for_footnotes(filename); }}); }
 
-scan_all(); 
+scan_all();
+//scan_for_footnotes(path);

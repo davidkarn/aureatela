@@ -363,8 +363,8 @@ var books_tbl   = [
     ["2 Samuel","2 Sam","2 Sa","2 S","2 Sm","2 Rg","2 Regn","2 Samuel"],
     ["1 Kings","1 Kr","1 Kra","1 Kralj","1 Ki","1 Kgs","1 R","1 Re","3 Rg","3 Regn","1 Kon","1 Erg","1 Rois","1 Kings","1 Kralji","1 Koningen","1 Reyes"],
     ["2 Kings","2 Kr","2 Kra","2 Kralj","2 Ki","2 Kgs","2 R","2 Re","4 Rg","4 Regn","2 Kon","2 Erg","2 Rois","2 Kings","2 Kralji","2 Koningen","2 Reyes"],
-    ["1 Chronicles","1 Krn","1 Kron","1 Let","1 Ljet","1 Ch","1 Cr","1 Cro","1 Kro","1 Chron","1 Chr","1 Letopisi","1 Chronicles","1 Kronieken","1 Chronik"],
-    ["2 Chronicles","2 Krn","2 Kron","2 Let","2 Ljet","2 Ch","2 Cr","2 Cro","2 Kro","2 Chron","2 Chr","2 Letopisi","2 Chronicles","2 Kronieken","2 Chronik"],
+    ["1 Chronicles","1 Krn","1 Kron","1 Let","1 Ljet","1 Ch","1 Cr","1 Cro","1 Kro","1 Chron","1 Chr","1 Letopisi","1 Chronicles","1 Kronieken","1 Chronik", "3 Kgs"],
+    ["2 Chronicles","2 Krn","2 Kron","2 Let","2 Ljet","2 Ch","2 Cr","2 Cro","2 Kro","2 Chron","2 Chr","2 Letopisi","2 Chronicles","2 Kronieken","2 Chronik", "4 kgs"],
     ["Ezra","Ezr","Ezdr","Ezra","Esra","Esr","Esd","1 Ezr","1 Esr","Ezdra","Esdras"],
     ["Nehemiah","Neh","Ne","2 Ezr","2 Esr","Nehemija","Nehemiah","Nehemia"],
     ["Esther","Est","Ester","Esth","Esther","Estera"],
@@ -452,7 +452,6 @@ function parse_roman(str1) {
     for (var i = 1; i < str1.length; i++){
 	curr     = char_to_int(str1.charAt(i))
 	pre      = char_to_int(str1.charAt(i-1))
-	
 	if(curr <= pre)
 	    num   += curr
 	else 
@@ -484,7 +483,7 @@ function parse_refs(footnote) {
 	var verse     = Number.parseInt(match[12].match(/\d+/))
 	var book      = get_book_name(match[1])
 
-	verses.push({book, chapter, verses: [verse]}) })
+	verses.push({book, chapter, verses: [verse], index: match.index}) })
 
     return verses }
 
@@ -547,4 +546,4 @@ function parse_uccsb_refs(note) {
 
 
 
-module.exports = {to_code, authors, book_keys_tbl, parse_refs, parse_uccsb_refs, to_code}
+module.exports = {to_code, authors, book_keys_tbl, parse_refs, parse_uccsb_refs, to_code, parse_roman}
