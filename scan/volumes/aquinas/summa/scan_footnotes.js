@@ -78,11 +78,20 @@ const footnotes_table = [
     {author: 'boethius',
      title: 'on_the_trinity', 
      pattern: 'De Trin.',
+     processor: (ref_nums) => {
+         return {orig: ref_nums,
+                 volume: 0 + ref_nums[0],
+                 section: 0 + (ref_nums.length > 1 ? ref_nums[1] : 0)}; },     
      latinpattern: 'de trin'},
     {author: 'john_damascene',
-     title: 'on_the_orthodox_faith', 
+     title: 'an_exact_exposition_of_the_orthodox_faith',
+     data_author: 'john_of_damascus',
      pattern: 'De Fide Orth.',
-     latinpattern: 'de fide orth'},
+     processor: (ref_nums) => {
+         return {orig: ref_nums,
+                 volume: 0 + ref_nums[0],
+                 section: 0 + (ref_nums.length > 1 ? ref_nums[1] : 0)}; },
+    latinpattern: 'de fide orth'},
     {author: 'peter_lombard',
      title: 'sentences', 
      pattern: 'Sent.',
@@ -219,7 +228,7 @@ function scan_for_footnotes(path) {
                                                       footnotes_table)}; })}; })}); }
 
 function apply_footnotes(path, data) {
-    console.log('writing', path, util.inspect(data, false, null, true));
+    console.log('writing', path);//, util.inspect(data, false, null, true));
     execSync("mkdir -p ../../../../data/books/aquinas/summa/");
     fs.writeFileSync("../../../../data/books/aquinas/summa/"
                      + (path
@@ -301,7 +310,7 @@ function find_footnotes(text, patterns) {
             let chapt_match = [...context_after.matchAll(after_regex)];
             if (chapt_match.length === 0)
                 chapt_match = [...context_before.matchAll(before_regex)];
-            console.log(chapt_match, context_before);
+
             const ref_block = chapt_match.length > 0
                   && get_ref_block(pattern, chapt_match[0][0]);
             
