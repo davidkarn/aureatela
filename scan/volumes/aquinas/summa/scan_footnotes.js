@@ -1,4 +1,4 @@
-
+const {execSync}  = require('node:child_process');
 const fs          = require('fs');
 const util        = require('util');
 const utils       = require('../../../../utils');
@@ -220,7 +220,13 @@ function scan_for_footnotes(path) {
 
 function apply_footnotes(path, data) {
     console.log('writing', path, util.inspect(data, false, null, true));
-    fs.writeFileSync(path, JSON.stringify(data, null, "  ")); }
+    execSync("mkdir -p ../../../../data/books/aquinas/summa/");
+    fs.writeFileSync("../../../../data/books/aquinas/summa/"
+                     + (path
+                        .replace(/.*\//, '')
+                        .replace('.html', '')
+                        .toLowerCase()),
+                     JSON.stringify(data, null, "  ")); }
 
 function mark_dupes(footnotes) {
     const table = footnotes.reduce(
@@ -335,6 +341,6 @@ function scan_all() {
             if (filename.match('.html.json')) {
                 scan_for_footnotes(filename); }}); }
 
-//scan_all();
-scan_for_footnotes(path);
+scan_all();
+//scan_for_footnotes(path);
 
