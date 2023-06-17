@@ -16,7 +16,7 @@ function scan_author(author) {
 function scan_title(author, title) {
     fs
         .readdirSync('./data/books/' + author + "/" + title)
-        .filter(name => name != 'book.json')
+        .filter(name => name != 'book.json' && !name.match('refs.json'))
         .map(volume => scan_volume(author, title, volume)); }
 
 function scan_volume(author, title, volume) {
@@ -29,7 +29,7 @@ function scan_volume(author, title, volume) {
         scan_fathers_volume(author, title, volume, data); }
 
     else if (data) {
-        scan_other_volume(author, title, voluem, data); }}
+        scan_other_volume(author, title, volume, data); }}
 
 function scan_fathers_volume(author, title, volume, data) {
     console.log('scanning fathers', author, title, volume);    
@@ -52,7 +52,7 @@ function scan_other_volume(author, title, volume, data) {
     console.log('scanning other', author, title, volume);
     data.parts.map((section, section_index) => {
         section.paragraphs.map((paragraph, paragraph_index) => {
-            paragraph.references.map(
+            paragraph.refs.map(reference => 
                 record_other_reference(author, title, volume, section_index,
                                        paragraph, paragraph_index,
                                        reference)); }); }); }
@@ -60,7 +60,8 @@ function scan_other_volume(author, title, volume, data) {
 function record_other_reference(author, title, volume, section_index,
                                 paragraph, paragraph_index, reference) {
     if (reference.author === "bible") {
-        store_bible_ref(reference.book, reference.chapter, reference.verses,
+        store_bible_ref(reference.reference.book, reference.reference.chapter,
+                        reference.reference.verses,
                         {author, title, volume, section_index, paragraph_index,
                          paragraph, fn: reference.index}); }
 
@@ -77,17 +78,22 @@ function store_book_ref(author, book, volume, section, paragraph, ref_data) {
     paragraph      = paragraph || 0;
     section        = section || 0;
     let refs_list  = {};
-    const path     = ("data/books/" + author + "/" + book
+    const path     = ("./data/books/" + author + "/" + book
                       + "/volume_" + volume + "_refs.json");
     const code     = [ref_data.author, ref_data.title, ref_data.volume,
                       ref_data.section_index, ref_data.paragraph_index,
                       author, book, volume, section, paragraph].join(":");
     
     if (fs.existsSync(path)) {
-        refs_list = JSON.parse(rs.readFileSync(path)); }
+        refs_list = JSON.parse(fs.readFileSync(path)); }
 
     refs_list[code] = {book, volume, section, paragraph, ...ref_data};
-    fs.writeFileSync(path, JSON.stringify(refs_list)); }
+    if (fs.existsSync(path.replace(/[a-z0-9_]*.json/, ''))) {
+        fs.writeFileSync(path, JSON.stringify(refs_list)); }
+    
+    else {
+        console.log('couldnt find path: ' + path); }}
+        
                          
 function store_bible_ref(book, chapter, verses, ref_data) {
     console.log('writing bible', book, chapter, verses);
@@ -104,6 +110,7 @@ function store_bible_ref(book, chapter, verses, ref_data) {
         refs_list = JSON.parse(fs.readFileSync(path)); }
     
     refs_list[code] = {book, chapter, verses, ...ref_data};
+    execSync("mkdir -p " + path.replace('refs.json', ''));
     fs.writeFileSync(path, JSON.stringify(refs_list)); }
 
 scan_books();
