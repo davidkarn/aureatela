@@ -7,19 +7,23 @@ const Editors = () => {
     const [openEditors, setOpenEditors] = useState([]);
     const [language, setLanguage]       = useState("eng");
 
-    const addOpenEditor = (config) => {
+    const addEditor = (config) => {
         setOpenEditors([...openEditors, config]);
     }
 
-    return __('div', {id: 'main-ui'},
-              __(Toc, {openEditor: (config) => setOpenEditors([config])}),
-              openEditors.map(config => __(Editor, {...config, language}))); }
+    const openEditor = (config) => setOpenEditors([config]);
 
-const Editor = ({author, book, volume, language}) => {
+    return __('div', {id: 'main-ui'},
+              __(Toc, {openEditor}),
+              openEditors.map(config => __(Editor, {...config, language, openEditor, addEditor}))); }
+
+const Editor = ({author, book, volume, language, openEditor, addEditor}) => {
     const [currentVolume, setCurrentVolume] = useState(volume);
     const [volumes, setVolumes]             = useState({});
+    const [refsList, setRefsList]           = useState({});
 
     const contents = volumes[currentVolume];
+    const refs     = Object.values(refsList[currentVolume] || {});
     const isV1     = contents && contents.volume_title;
     const isV2     = contents && contents.heading;
     
@@ -28,8 +32,63 @@ const Editor = ({author, book, volume, language}) => {
             if (!volumes[currentVolume]) {
                 axios.get(volume.replace(/$./, ''))
                     .then(r => {
-                        setVolumes({...volumes, [volume]: r.data}); }); }},
+                        setVolumes({...volumes, [volume]: r.data}); }); }
+
+            if (!refsList[currentVolume]) {
+                axios.get(volume.replace(/$./, '').replace('.json', '_refs.json'))
+                    .then(r => {
+                        setRefsList({...refsList, [volume]: r.data}); }); }},
         [currentVolume]);
+
+    const linkFootnotes = (text) => {
+        const groups   = text.split(/\[fn-[-0-9a-zA-Z_:]+\]/g);
+        const content  = [];
+        let fn         = 1;
+
+        groups.forEach((g, i) => {
+            if (i > 0) {
+                content.push(__('sup', {}, fn));
+                fn++; }
+
+            content.push(g); });
+
+        return content; }
+
+    const getFootnotes = para => {
+        return para.references.map((footnote, i) => {
+            return __('div', {className: 'footnote'}, 
+                      i, ". ", 
+                      footnote.bible_refs
+                      ? [__('a', {onClick: () => openEditor({author: 'bible',
+                                                             book:   'bible',
+                                                             volume: footnote.bible_refs})},
+                            footnote.text), 
+                         ' ',
+                         __('a', {onClick: () => addEditor({author: 'bible',
+                                                            book:   'bible',
+                                                            volume: footnote.bible_refs})},
+                            '>>')]
+                      : footnote.text); }); };
+
+    const getReferences = (para, sec_ind, para_ind) => {
+        return refs
+            .filter(ref => ref.section_index = sec_ind && ref.paragraph_index == para_ind)
+            .map(ref => __(
+                'div', {className: 'external-reference'},
+                __('a', {onClick: () => openEditor({author:  ref.author,
+                                                    section: ref.section,
+                                                    book:    ref.title,
+                                                    volume:  ref.volume})},
+                   ref.author, ' ', ref.title),
+                ' ',
+                __('a', {onClick: () => addEditor({author:  ref.author,
+                                                   book:    ref.title,
+                                                   section: ref.section,
+                                                   volume:  ref.volume})},
+                   '>>'),
+                __('br'),
+                ref.paragraph[language] || ref.paragraph[eng] || ref.paragraph.lat)); };
+                
 
     if (!contents) {
         return __('div', {}); }
@@ -39,16 +98,17 @@ const Editor = ({author, book, volume, language}) => {
             'div', {}, 
             __('strong', {className: 'volume-title'}, contents.volume_title), __('br'),
             __('div', {className: 'volume-body'},
-               contents.sections.map(section => __(
+               contents.sections.map((section, sec_ind) => __(
                    'div', {className: 'section'},
                    section.name && __('strong', {}, section.name),
-                   section.paragraphs.map(para => __(
+                   section.paragraphs.map((para, para_ind) => __(
                        'div', {className: 'paragraph'}, 
                        __('div', {className: 'text-part'},
-                          para.text),
+                          linkFootnotes(para.text)),
                        __('div', {className: 'ref-part'},
-                          JSON.stringify(para.references) ))))))); }
-
+                          getFootnotes(para),
+                          getReferences(para, sec_ind, para_ind) ))))))); }
+    
     else if (isV2) {
         return __(
             'div', {}, 
