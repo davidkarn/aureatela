@@ -28,7 +28,7 @@ function is_title(str) {
     return str.replace(/[^a-zA-Z.-]+/g, '').length > 6; }
 
 function titleify(str) {
-    return ucfirst(str.replace(/[_-]/, ' ').trim().split(/ +/)
+    return ucfirst(str.replace(/[_-]/g, ' ').trim().split(/ +/)
                    .map(word => {
                        if (["a", "for", "the", "on", "of", "from", "or"].includes(word)) {
                            return word.toLowerCase(); }
